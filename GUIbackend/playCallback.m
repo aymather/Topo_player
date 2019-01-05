@@ -2,7 +2,7 @@
 function playCallback(hObject,~,hAxes,mySettings)
    
    % Init global variables
-   global framenum; global IDF; global ADF; global MDF;
+   global framenum;
 
    try
        
@@ -29,28 +29,15 @@ function playCallback(hObject,~,hAxes,mySettings)
             % Display main video frame on axis
             showFrameOnAxis(hAxes.axis1, mySettings.anim{framenum});
             
-            % If frame is equal to input display it
-            if isfield(mySettings,'allCFrames')
-                for i = 1:length(mySettings.allCFrames)
-                    if isfield(mySettings.cframes,'individualDisplayFrames') && IDF
-                        if framenum == mySettings.allCFrames(i)
-                            showFrameOnAxis(hAxes.(['axis' num2str(mySettings.allCFrames(i))]), mySettings.anim{framenum});
-                            if framenum == mySettings.cframes.individualDisplayFrames(end); IDF = false; end
-                        end
-                    end
-                    if isfield(mySettings.cframes,'averagedDisplayFrame') && ADF
-                        if framenum == mySettings.cframes.averagedDisplayFrame
-                            showFrameOnAxis(hAxes.(['axis' num2str(mySettings.cframes.averagedDisplayFrame)]), mySettings.displayFrames.averaged);
-                            ADF = false;
-                        end
-                    end
-                    if isfield(mySettings.cframes,'montageDisplayFrame') && MDF
-                        if framenum == mySettings.cframes.montageDisplayFrame
-                            showFrameOnAxis(hAxes.(['axis' num2str(mySettings.cframes.montageDisplayFrame)]), mySettings.displayFrames.montage);
-                            MDF = false;
-                        end
-                    end
+            fnames = fieldnames(mySettings.display);
+            for ib = 1:length(fnames)
+                
+                if framenum == str2double(strip(fnames{ib},'left','d'))
+                    
+                    showFrameOnAxis(hAxes.(['axis' strip(fnames{ib},'left','d')]), mySettings.display.(fnames{ib}).frame); 
+                    
                 end
+                 
             end
                  
             % Pause for slow motion

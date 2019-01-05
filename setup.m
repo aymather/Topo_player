@@ -1,54 +1,33 @@
-
+% Example setup using all available settings.
+% Notes:
+%
+%       1. there must be a title for every frame presentation,
+%          and the presentation times and titles must map onto
+%          each other accordingly.
+%       2. You cannot present 2 frames at the same time.
+%       3. All custom frames can be made using the topo_montage()
+%          and topo_average() functions.
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 
-% BASIC FRAME CAPTURES SETUP
-%arrayObj.times = [50:56,60:62]; % ms
-%arrayObj.titles = {'this','is','my','titles','cell','array'};
+% 'AddIndividualFrames'
+standardObj.times  = [ 44    , 26  , 88 , 66   , 100    ]; % presentation times of frames in ms
+standardObj.titles = {'these','are','my','test','frames'}; % titles of presented frames
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-% MONTAGE FRAME SETUP
+% 'AddCustomFrames'
 
-% Required Fields
-montageObj.title = {'A montage accepts only one title as a cell'}; % title
-montageObj.presentationTime = 100; % when should we present this image during the movie?
-
-% Field for creating a custom image
-% time window for montage in ms
-%montageObj.timeWindow = [50,100]; % ms
-
-% or
-
-% use existing montage image from .mat file
-montageObj.matFile = 'A montage accepts only one title as a cell.mat'; % .mat file
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-
-% AVERAGED FRAME SETUP
-
-% Required inputs
-averageObj.presentationTime = 150; % ms
-averageObj.title = {'An averaged object will have only one title as well'}; % title
-
-% create unique averaged image from data
-% load('example_data.mat','GL'); % data matrix for topoplot
-% x = GL(:,50:100); % cut out data you want to average together
-% load('Wessellab_Chanlocs.mat'); % load chanlocs file
-% averageObj.chanlocs = chanlocs; % chanlocs
-% averageObj.data = x; % data
-
-% or
-
-% use existing .mat file image
-averageObj.matFile = 'An averaged object will have only one title as well.mat'; % .mat file
+customObj.titles = {'Custom title 1', 'Custom title 2'}; % title of each custom frame
+customObj.files  = {'average.mat'   , 'montage.mat'   }; % file containing custom frame
+customObj.times  = [150             ,  20             ]; % presentation time of custom frame
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 % Example
 topo_player('testFile.mat', ...
-            'WaitTime',50, ... 
-            'AddAveragedFrame',averageObj, ...
-            'AddMontageFrame',montageObj);
+            'WaitTime',50, ...
+            'AddIndividualFrames',standardObj, ...
+            'AddCustomFrames',customObj);
         
         
         

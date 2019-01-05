@@ -44,11 +44,6 @@ function compile_topo(data,chanlocs,name)
     
     % Load in Adrian's color map
     try load('AGF_cmap.mat'); catch; warning('Could not find file AGF_cmap.mat');end
-    
-    if nargin ~= 3
-        warning('Check number of inputs');
-        return
-    end
         
     % set increments for iframes
     iframe = 1;
