@@ -55,14 +55,49 @@ function settings = topo_init(p,anim)
         
     end
     
-    if length(fieldnames(settings.display)) ~= 1
-        settings.buttonPos.start = [.68 .95 .31 .03];
-        settings.buttonPos.exit = [.84 .9 .15 .03];
-        settings.buttonPos.reset = [.68 .9 .15 .03];
+    % Get all positions [X Y W H]
+    numframes = length(fieldnames(settings.display)); % how many frames are we going to capture?
+    
+    % Establish widths and heights
+    startW = .3;
+    movieW = 17/60; movieH = 27/60;
+    hsub = .05; wsub = ((1/3)/10); h = .5; w = 1/3;
+    
+    % Make adjustments to widths depending on the number
+    % of capture frames
+    if numframes == 1 % if we're only capturing 1 frame, go horizontal to save space
+        movieX = (1/6); movieY = 1/4; % movie adjustments
+        cframeX = (3/6)+.1; cframeY = 1/4;
+        xpos = [cframeX cframeY movieW movieH];
     else
-        settings.buttonPos.start = [.38 .95 .31 .03];
-        settings.buttonPos.exit = [.54 .9 .15 .03];
-        settings.buttonPos.reset = [.38 .9 .15 .03];
+        movieX = .5-(movieW/2); movieY = 33/60; % movie adjustments
+        h = h - (hsub*numframes);
+        w = w - (wsub*numframes);
+        y = (.5/2) - (h/2);
+        xpos = [];
+        for i = 1:numframes
+            x = (i)/(numframes+1);
+            x = x-(w/2);
+            p = [x y w h];
+            xpos = [xpos;p];
+        end
+    end 
+    
+    % Set new adjusted positions
+    settings.positions.cframes = xpos;
+    settings.positions.movie = [movieX movieY movieW movieH];
+    
+    % Button and progress bar positions
+    if numframes ~= 1
+        settings.positions.start = [.68 .95 .31 .03];
+        settings.positions.exit = [.84 .9 .15 .03];
+        settings.positions.reset = [.68 .9 .15 .03];
+        settings.positions.pbar = [movieX .48 movieW .018];
+    else
+        settings.positions.start = [.5-(startW/2) .95 startW .03];
+        settings.positions.exit = [.5-(startW/2)+.15 .9 .15 .03];
+        settings.positions.reset = [.5-(startW/2) .9 .15 .03];
+        settings.positions.pbar = [movieX movieY-.08 movieW .018];
     end
     
     % Screen Dimensions

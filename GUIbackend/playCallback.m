@@ -29,6 +29,10 @@ function playCallback(hObject,~,hAxes,mySettings)
             % Display main video frame on axis
             showFrameOnAxis(hAxes.axis1, mySettings.anim{framenum});
             
+            % Update progress bar
+            status = framenum / length(mySettings.anim);
+            uiProgressBar(mySettings,hAxes.pBar,status);
+            
             fnames = fieldnames(mySettings.display);
             for ib = 1:length(fnames)
                 
