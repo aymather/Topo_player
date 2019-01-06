@@ -24,7 +24,7 @@ function playCallback(hObject,~,hAxes,mySettings)
             end
             
             % Update main movie
-            hAxes.ui1.String = ['Frame ' num2str(framenum) ' : Time Lapsed ' num2str(frame2time(mySettings.srate,framenum)) 'ms'];
+            hAxes.ui1.String = ['Frame ' num2str(framenum) ' : Time Lapsed ' num2str(frame2time(mySettings,framenum)) 'ms'];
 
             % Display main video frame on axis
             showFrameOnAxis(hAxes.axis1, mySettings.anim{framenum});

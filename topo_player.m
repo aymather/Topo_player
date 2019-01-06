@@ -46,7 +46,7 @@ function topo_player(filename,varargin)
     %        The titles is a cell array of titles that will map onto those
     %        extracted times.
     %
-    %        Example: x.times =  [ 44 , 66   , 88    ];
+    %        Example: x.times  = [ 44 , 66   , 88     ];
     %                 x.titles = {'my','test','titles'};
     %       
     %        Notes: 1. There must be a title for every time.
@@ -62,11 +62,11 @@ function topo_player(filename,varargin)
     %       made images using the topo_average() and topo_montage()
     %       functions.
     %
-    %       Example: x.times =  [ 150,200,300 ];
+    %       Example: x.times  = [ 150,200,300 ];
     %                x.titles = {'Averaged bw 100:150ms',...
     %                            'Montage bw 180:200ms',...
     %                            'Averaged bw 280:300ms'};
-    %                x.files =  {'customAveragedFrame.mat',...
+    %                x.files  = {'customAveragedFrame.mat',...
     %                            'montage180-200.mat',...
     %                            'averaged280-300.mat};
     %

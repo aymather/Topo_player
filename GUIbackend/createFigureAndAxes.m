@@ -39,7 +39,7 @@ function [hFig, hAxes] = createFigureAndAxes(settings)
         end
     end 
     movieSize = [movieX movieY movieW movieH];
-    [hAxes.axis1, hAxes.ui1] = createPanelAxisTitle(hFig,movieSize,['Frame ' num2str(framenum) ' : Time Lapsed ' num2str(frame2time(settings.srate,framenum)) 'ms']); 
+    [hAxes.axis1, hAxes.ui1] = createPanelAxisTitle(hFig,movieSize,['Frame ' num2str(framenum) ' : Time Lapsed ' num2str(frame2time(settings,framenum)) 'ms']); 
     
     % Sort the fieldnames and place it into an array
     fnames = fieldnames(settings.display);
