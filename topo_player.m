@@ -77,7 +77,6 @@ function topo_player(filename,varargin)
 
     % Initialize the video reader.
     disp('Loading in Video File...');
-    assert(endsWith(filename,'.mat'),'Filename must have a .mat extension');
     try load(filename,'anim'); catch; disp(['Your ' filename ' file does not contain the anim variable, you may be loading the wrong file']); end
     
     % Defaults
