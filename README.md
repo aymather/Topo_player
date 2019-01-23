@@ -34,7 +34,7 @@ In development
 3. The previous step has now created two files, 'compiled-file-name.avi' & 'compiled-file-name.mat', the only difference being their extension. You will be using the .mat file for the `topo_player()` function. The .avi file is a convenience file made in case you **only** want to view your movie without extracting frames. In that case, use the following command:
 \>> `implay('compiled-file-name.avi');`
 
-4. Now you need to set up your settings for which frames to extract, and create any custom frames (like averages or montage images). Visit the [Function Documentation]() for information on how to set these up. Once you have done that, run the command.
+4. Now you need to set up your settings for which frames to extract, and create any custom frames (like averages or montage images). Visit the [Function Documentation](./FUNCTIONDOCX.md) for information on how to set these up. Once you have done that, run the command.
 \>> `topo_player('compiled-file-name.mat',0,'AddIndividualFrames',framesObj,'AddCustomFrames',customFramesObj);`
 
 # Additional Notes
