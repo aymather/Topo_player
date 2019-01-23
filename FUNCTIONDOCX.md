@@ -74,6 +74,8 @@ Inputs:
 
 Description: This function creates a custom montage frame which is basically just a lot of extracted topoplots packed into 1 frame.
 
+**Important! Currently only supported by Matlab 2018b**
+
 Example:
 `topo_montage('example.mat', [100 150], 'montagedData');`
 
