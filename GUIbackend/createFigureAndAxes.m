@@ -23,22 +23,24 @@ function [hFig, hAxes] = createFigureAndAxes(settings)
     [hAxes.axis1, hAxes.ui1] = createPanelAxisTitle(hFig,settings.positions.movie,['Frame ' num2str(framenum) ' : Time Lapsed ' num2str(frame2time(settings,framenum)) 'ms']); 
     
     % Sort the fieldnames and place it into an array
-    fnames = fieldnames(settings.display);
-    b = [];
-    for it = 1:length(fnames)
-        b = [b, str2double(strip(fnames{it},'left','d'))];
-    end
-    sorted = sort(b);
-    
-    % Place axes on GUI
-    if length(fnames) > 1
-        for i = 1:length(fnames)
-            pos = settings.positions.cframes(i,:); % get position of frame
-            title = settings.display.(['d' num2str(sorted(i))]).title;
-            [hAxes.(['axis' num2str(sorted(i))]), hAxes.(['ui' num2str(sorted(i))])] = createPanelAxisTitle(gcf, pos, title);
+    if isfield(settings,'display')
+        fnames = fieldnames(settings.display);
+        b = [];
+        for it = 1:length(fnames)
+            b = [b, str2double(strip(fnames{it},'left','d'))];
         end
-    else
-        [hAxes.(['axis' num2str(sorted(1))]),hAxes.(['ui' num2str(sorted(1))])] = createPanelAxisTitle(gcf,settings.positions.cframes, settings.display.(['d' num2str(sorted(1))]).title);
+        sorted = sort(b);
+
+        % Place axes on GUI
+        if length(fnames) > 1
+            for i = 1:length(fnames)
+                pos = settings.positions.cframes(i,:); % get position of frame
+                title = settings.display.(['d' num2str(sorted(i))]).title;
+                [hAxes.(['axis' num2str(sorted(i))]), hAxes.(['ui' num2str(sorted(i))])] = createPanelAxisTitle(gcf, pos, title);
+            end
+        else
+            [hAxes.(['axis' num2str(sorted(1))]),hAxes.(['ui' num2str(sorted(1))])] = createPanelAxisTitle(gcf,settings.positions.cframes, settings.display.(['d' num2str(sorted(1))]).title);
+        end
     end
     
     % Add Progress bar with axes

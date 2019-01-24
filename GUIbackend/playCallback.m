@@ -33,15 +33,17 @@ function playCallback(hObject,~,hAxes,mySettings)
             status = framenum / length(mySettings.anim);
             uiProgressBar(mySettings,hAxes.pBar,status);
             
-            fnames = fieldnames(mySettings.display);
-            for ib = 1:length(fnames)
-                
-                if framenum == str2double(strip(fnames{ib},'left','d'))
-                    
-                    showFrameOnAxis(hAxes.(['axis' strip(fnames{ib},'left','d')]), mySettings.display.(fnames{ib}).frame); 
-                    
+            if isfield(mySettings,'display')
+                fnames = fieldnames(mySettings.display);
+                for ib = 1:length(fnames)
+
+                    if framenum == str2double(strip(fnames{ib},'left','d'))
+
+                        showFrameOnAxis(hAxes.(['axis' strip(fnames{ib},'left','d')]), mySettings.display.(fnames{ib}).frame); 
+
+                    end
+
                 end
-                 
             end
                  
             % Pause for slow motion
