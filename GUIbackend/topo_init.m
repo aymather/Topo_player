@@ -69,9 +69,10 @@ function settings = topo_init(p,anim)
     
     % Make adjustments to widths depending on the number
     % of capture frames
+    xpos = [];
     if numframes == 0
-        movieX = (1/2) - movieW;
-        movieY = 1/2;
+        movieX = (1/2) - (movieW/2);
+        movieY = 1/2 - (movieH/2);
     elseif numframes == 1 % if we're only capturing 1 frame, go horizontal to save space
         movieX = (1/6); movieY = 1/4; % movie adjustments
         cframeX = (3/6)+.1; cframeY = 1/4;
@@ -81,17 +82,16 @@ function settings = topo_init(p,anim)
         h = h - (hsub*numframes);
         w = w - (wsub*numframes);
         y = (.5/2) - (h/2);
-        xpos = [];
         for i = 1:numframes
             x = (i)/(numframes+1);
             x = x-(w/2);
             p = [x y w h];
             xpos = horzcat(xpos,p);
-            settings.positions.cframes = xpos;
         end
     end 
     
     % Set new adjusted positions
+    settings.positions.cframes = xpos;
     settings.positions.movie = [movieX movieY movieW movieH];
     
     % Button and progress bar positions
@@ -99,7 +99,7 @@ function settings = topo_init(p,anim)
         settings.positions.start = [.68 .95 .31 .03];
         settings.positions.exit = [.84 .9 .15 .03];
         settings.positions.reset = [.68 .9 .15 .03];
-        settings.positions.pbar = [movieX .48 movieW .018];
+        settings.positions.pbar = [movieX movieY-.08 movieW .018];
     elseif numframes == 1
         settings.positions.start = [.5-(startW/2) .95 startW .03];
         settings.positions.exit = [.5-(startW/2)+.15 .9 .15 .03];
