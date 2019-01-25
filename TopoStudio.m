@@ -102,16 +102,24 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 
     if checkIFrame(str2double(handles.edit1.String),handles.edit2.String)
         
-       % Check frames and add to handles
-       handles.CFrameTitles = horzcat(handles.CFrameTitles,handles.edit2.String);
-       handles.CFrameTimes = horzcat(handles.CFrameTimes,str2double(handles.edit1.String));
+        % Check frames and add to handles
+        handles.IFrameTitles = horzcat(handles.IFrameTitles,handles.edit2.String);
+        handles.IFrameTimes = horzcat(handles.IFrameTimes,str2double(handles.edit1.String));
        
-       % Update staged frames
-       handles.text25.String = horzcat(handles.text24.String, ['  ' handles.edit2.String]);
+        % Update staged frames
+        handles.text25.String = horzcat(handles.text24.String, ['  ' handles.edit2.String]);
        
-       % Reset strings in text boxes
-       handles.edit1.String = '';
-       handles.edit2.String = '';
+        % Reset strings in text boxes
+        handles.edit1.String = '';
+        handles.edit2.String = '';
+       
+    else
+        
+        % Give warning if something goes wrong
+        warn = 'Invalid inputs!';
+        warn = [warn newline 'Both a title and a capture time are required'];
+        warn = [warn newline 'Capture Time must be an even number and not contain any special characters including spaces.'];
+        warning(warn);
 
     end
 
@@ -209,10 +217,12 @@ end
 
 
 % --- Executes on button press in pushbutton6.
+% --- Select custom.mat file pushbutton
 function pushbutton6_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
+    % Open a file to select
+    customFile = uigetfile;
+    handles.text10.String = customFile;
 
 
 % --- Executes on button press in pushbutton8.
@@ -223,12 +233,32 @@ function pushbutton8_Callback(hObject, eventdata, handles)
 
 
 % --- Executes on button press in pushbutton7.
+% --- Stage Custom Frames pushbutton
 function pushbutton7_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton7 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-
+    if checkCFrame(str2double(handles.edit5.String), handles.edit4.String, handles.text10.String)
+        
+        % Check frames and add to handles
+       handles.CFrameTitles = horzcat(handles.CFrameTitles,handles.edit4.String);
+       handles.CFrameTimes = horzcat(handles.CFrameTimes,str2double(handles.edit3.String));
+       handles.CFrameFiles = horzcat(handles.CFrameFiles,handles.text10.String);
+       
+       % Update staged frames
+       handles.text25.String = horzcat(handles.text24.String, ['  ' handles.edit4.String]);
+       
+       % Reset strings in text boxes
+       handles.edit3.String = '';
+       handles.edit4.String = '';
+       
+    else
+        
+        % Give warning if something goes wrong
+        warn = 'Invalid Inputs!';
+        warn = [warn newline 'All fields required: .mat file, display time, and title.'];
+        warn = [warn newline 'File must exist and display time must be an even number without any special characters including spaces.'];
+        warning(warn);
+        
+    end
 
 
 % --- Executes on button press in pushbutton9.
@@ -403,7 +433,13 @@ end
 
 
 % --- Executes on button press in pushbutton14.
+% --- Reset stage pushbutton
 function pushbutton14_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton14 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
+    handles.IFrameTimes = [];
+    handles.IFrameTitles = {};
+    handles.CFrameTimes = [];
+    handles.CFrameTitles = {};
+    handles.CFrameFiles = {};
+    handles.text24.String = {};
+    handles.text25.String = {};
