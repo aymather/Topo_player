@@ -107,7 +107,7 @@ function pushbutton3_Callback(hObject, eventdata, handles)
         handles.IFrameTimes = horzcat(handles.IFrameTimes,str2double(handles.edit1.String));
        
         % Update staged frames
-        handles.text25.String = horzcat(handles.text24.String, ['  ' handles.edit2.String]);
+        handles.text24.String = horzcat(handles.text24.String, ['  ' handles.edit2.String]);
        
         % Reset strings in text boxes
         handles.edit1.String = '';
@@ -236,7 +236,7 @@ function pushbutton8_Callback(hObject, eventdata, handles)
 % --- Stage Custom Frames pushbutton
 function pushbutton7_Callback(hObject, eventdata, handles)
 
-    if checkCFrame(str2double(handles.edit5.String), handles.edit4.String, handles.text10.String)
+    if checkCFrame(str2double(handles.edit3.String), handles.edit4.String, handles.text10.String)
         
         % Check frames and add to handles
        handles.CFrameTitles = horzcat(handles.CFrameTitles,handles.edit4.String);
@@ -244,11 +244,12 @@ function pushbutton7_Callback(hObject, eventdata, handles)
        handles.CFrameFiles = horzcat(handles.CFrameFiles,handles.text10.String);
        
        % Update staged frames
-       handles.text25.String = horzcat(handles.text24.String, ['  ' handles.edit4.String]);
+       handles.text25.String = horzcat(handles.text25.String, ['  ' handles.edit4.String]);
        
        % Reset strings in text boxes
        handles.edit3.String = '';
        handles.edit4.String = '';
+       handles.text10.String = 'No File Selected';
        
     else
         
@@ -436,6 +437,7 @@ end
 % --- Reset stage pushbutton
 function pushbutton14_Callback(hObject, eventdata, handles)
 
+    % Reset all handles that hold staging information
     handles.IFrameTimes = [];
     handles.IFrameTitles = {};
     handles.CFrameTimes = [];
