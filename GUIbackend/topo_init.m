@@ -66,10 +66,9 @@ function settings = topo_init(p,anim)
     startW = .3;
     movieW = 17/60; movieH = 27/60;
     hsub = .05; wsub = ((1/3)/10); h = .5; w = 1/3;
-    
+    xpos = [];
     % Make adjustments to widths depending on the number
     % of capture frames
-    xpos = [];
     if numframes == 0
         movieX = (1/2) - (movieW/2);
         movieY = 1/2 - (movieH/2);
@@ -86,7 +85,7 @@ function settings = topo_init(p,anim)
             x = (i)/(numframes+1);
             x = x-(w/2);
             p = [x y w h];
-            xpos = horzcat(xpos,p);
+            xpos = [xpos;p];
         end
     end 
     

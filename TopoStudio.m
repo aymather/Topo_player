@@ -270,32 +270,56 @@ function pushbutton9_Callback(hObject, eventdata, handles)
 
 
 % --- Executes on button press in pushbutton10.
+% --- Create Averaged Frame pushbutton
 function pushbutton10_Callback(hObject, eventdata, handles)
 
+    %if checkCreateAveragedFrame()
+
+        % Extract data from file
+        loadData = load(handles.text13.String);
+        dataFieldnames = fieldnames(loadData);
+        data = loadData.(dataFieldnames{1});
+
+        % Extract chanlocs from file
+        loadChanlocs = load(handles.text14.String);
+        chanlocsFieldnames = fieldnames(loadChanlocs);
+        chanlocs = loadChanlocs.(chanlocsFieldnames{1});
+
+        % Grab the rest of the variables
+        timeWindow = [str2double(handles.edit5.String), str2double(handles.edit6.String)];
+        name = handles.edit7.String;
+
+        % Create the frame
+        topo_average(data, chanlocs, timeWindow, name);
+
+        % Reset values
+        handles.text13.String = 'No File Selected';
+        handles.text14.String = 'No File Selected';
+        handles.edit5.String = '';
+        handles.edit6.String = '';
+        handles.edit7.String = '';
 
 
 % --- Executes on button press in pushbutton11.
 function pushbutton11_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton11 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
+    % Open a window to get file
+    dataFile = uigetfile;
+    handles.text13.String = dataFile;
 
 
 % --- Executes on button press in pushbutton12.
 function pushbutton12_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton12 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
+    % Open a window to get file
+    chanlocsFile = uigetfile;
+    handles.text14.String = chanlocsFile;
 
 
 function edit5_Callback(hObject, eventdata, handles)
 % hObject    handle to edit5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of edit5 as text
-%        str2double(get(hObject,'String')) returns contents of edit5 as a double
 
 
 % --- Executes during object creation, after setting all properties.

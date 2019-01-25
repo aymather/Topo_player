@@ -30,7 +30,7 @@ function [hFig, hAxes] = createFigureAndAxes(settings)
             b = [b, str2double(strip(fnames{it},'left','d'))];
         end
         sorted = sort(b);
-
+        
         % Place axes on GUI
         if length(fnames) > 1
             for i = 1:length(fnames)

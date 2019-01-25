@@ -31,7 +31,7 @@ function topo_average(data,chanlocs,timeWindow,title)
     plotdata = data(:,time2frame(settings,timeWindow(1)):time2frame(settings,timeWindow(end)));
     averagedData = mean(plotdata,2);
     try load('AGF_cmap.mat'); catch; warning('Could not find file AGF_cmap.mat');end % load Adrian's colormap
-    figure('Color','white'); % create figure but hide it
+    figure('Color','white','Visible','off'); % create figure but hide it
     topoplot(averagedData,chanlocs,'whitebk','on'); % plot data
     colormap(AGF_cmap); % change color map
 
