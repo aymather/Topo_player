@@ -28,10 +28,10 @@ Data is your preprocessed EEG data matrix (columns = timepoints, rows = channel 
 ![screen shot 2019-01-26 at 5 28 33 pm](https://user-images.githubusercontent.com/41848756/51794116-9416af80-2191-11e9-9167-3069fb59e227.png)
 Since all we have at this point is a compiled movie, let's just load that in and play it. Click on "Select Movie File" and find the .mat file you just created. When you hit enter you should see that that file is chosen under the button you just pressed. Now hit "Play Movie."
 6. Now that you've seen your movie in action, you can now pick out individual frames to present along side your movie. Just above the stage there are two sections called "Stage Individual Frames" and "Stage Custom Frames."
-
--- Go to "Stage Individual Frames" and type in a time (in milliseconds) that you would like to see displayed along side your movie. _Important: This application assumes a sample rate of 500 Hz which means that for each column of data, two milliseconds have passed. Therefore, giving an odd number as an input will give you an error. Also, the very first column of your data (frame 1) is considered timepoint 0_
--- Then give your frame a title.
--- Once you have those two fields filled out, click "Add to Stage". You should see now at the Staging area that the title of your frame has been added! The Staging area will keep track of all the settings currently staged. Now you can add a couple more individual frames, or you can click "Play Movie."
+![screen shot 2019-01-26 at 5 28 23 pm](https://user-images.githubusercontent.com/41848756/51794178-cc6abd80-2192-11e9-830c-900a91b0faa8.png)
+- Go to "Stage Individual Frames" and type in a time (in milliseconds) that you would like to see displayed along side your movie. _Important: This application assumes a sample rate of 500 Hz which means that for each column of data, two milliseconds have passed. Therefore, giving an odd number as an input will give you an error. Also, the very first column of your data (frame 1) is considered timepoint 0_
+- Then give your frame a title.
+- Once you have those two fields filled out, click "Add to Stage". You should see now at the Staging area that the title of your frame has been added! The Staging area will keep track of all the settings currently staged. Now you can add a couple more individual frames, or you can click "Play Movie."
 
 # Additional Notes
 
