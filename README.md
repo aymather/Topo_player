@@ -3,7 +3,7 @@
 The Topo Player is a Matlab application that allows users to input multiple time points of topographical data, and create a movie of electrical activity represented on a standard topographical map.
 
 # Status
-In development
+Montage frames are currently not supported with Matlab versions before 2018.
 
 # Requirements
 
