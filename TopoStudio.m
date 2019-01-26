@@ -52,6 +52,9 @@ function TopoStudio_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to TopoStudio (see VARARGIN)
 
+% Init
+handles.settings = topo_studio_init;
+
 % Choose default command line output for TopoStudio
 handles.output = hObject;
 handles.IFrameTimes = [];
@@ -247,7 +250,7 @@ function pushbutton7_Callback(hObject, eventdata, handles)
        % Reset strings in text boxes
        handles.edit3.String = '';
        handles.edit4.String = '';
-       handles.text10.String = 'No File Selected';
+       handles.text10.String = handles.settings.text.noFileSelected;
        
     else
         
@@ -284,11 +287,11 @@ function pushbutton9_Callback(hObject, eventdata, handles)
         topo_montage(file, timeWindow, name);
 
         % Clear user input
-        handles.text18.String = 'No File Selected';
+        handles.text18.String = handles.settings.text.noFileSelected;
         handles.edit10.String = '';
         handles.edit11.String = '';
         handles.edit12.String = '';
-        handles.pushbutton9.String = 'Create';
+        handles.pushbutton9.String = handles.settings.text.createButton;
         
     else
         
@@ -331,14 +334,14 @@ function pushbutton10_Callback(hObject, eventdata, handles)
         topo_average(data, chanlocs, timeWindow, name);
 
         % Reset values
-        handles.text13.String = 'No File Selected';
-        handles.text14.String = 'No File Selected';
+        handles.text13.String = handles.settings.text.noFileSelected;
+        handles.text14.String = handles.settings.text.noFileSelected;
         handles.edit5.String = '';
         handles.edit6.String = '';
         handles.edit7.String = '';
         
         % Reset pushbutton string
-        handles.pushbutton10.String = 'Create';
+        handles.pushbutton10.String = handles.settings.text.createButton;
         
     else
         
@@ -495,7 +498,7 @@ function pushbutton14_Callback(hObject, eventdata, handles)
     handles.CFrameFiles = {};
     handles.text24.String = {};
     handles.text25.String = {};
-    handles.text29.String = 'No File Selected';
+    handles.text29.String = handles.settings.text.noMovieSelected;
     handles.text30.String = '0';
 
     % Update handles structure
@@ -569,8 +572,8 @@ function pushbutton17_Callback(hObject, eventdata, handles)
 function pushbutton18_Callback(hObject, eventdata, handles)
 
     handles.text32.String = 'default';
-    handles.pushbutton17.String = 'Select Chanlocs';
-    handles.pushbutton16.String = 'Select Data';
+    handles.pushbutton17.String = handles.settings.text.selectChanlocs;
+    handles.pushbutton16.String = handles.settings.text.selectData;
 
 
 % --- Give filename edit14 bar callback
