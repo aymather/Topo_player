@@ -47,6 +47,11 @@ function compile_topo(data,chanlocs,name)
     
     % Load in Adrian's color map
     try load('AGF_cmap.mat'); catch; warning('Could not find file AGF_cmap.mat');end
+    
+    % Init waitbar
+    bar = waitbar(0,'Starting...');
+    total = size(data,2);
+    catString = '% complete...';
         
     % set increments for iframes
     iframe = 1;
@@ -54,7 +59,11 @@ function compile_topo(data,chanlocs,name)
     % set handle and remove visibility
     h = figure('visible','off','Color','white');
     
-    for i = 1:size(data,2)
+    for i = 1:total
+        
+        % update waitbar
+        str = [num2str(round((i/total)*100)) catString];
+        waitbar((i/total), bar, str);
         
         % separate each frame
         x = data(:,i);
@@ -74,22 +83,36 @@ function compile_topo(data,chanlocs,name)
         % increase iframe increment
         iframe = iframe + 1;
         
-        % clear figure (must do this to prevent figure from slowing down)
-        clf
+        % Clear axes to keep clean
+        cla(h);
 
     end
     
+    close(bar);
+    
     % create video object/open for writing
-    disp('Writing Files...');
     writerObj = VideoWriter([name '.avi']);
     open(writerObj);
     
+    % Init waitbar
+    bar = waitbar(0,'Starting...');
+    total = length(anim);
+    
     % write frames into .avi file
-    for i = 1:length(anim)
+    for i = 1:total
+        
+        % update waitbar
+        str = [num2str(round((i/total)*100)) catString];
+        waitbar(i/total, bar, str);
+        
         frame = anim(i).cdata;
         writeVideo(writerObj,frame);
+        
     end
+    
+    % Close objects
     close(writerObj);
+    close(bar);
     
     % This warning is a known issue at mathworks and should be turned 
     % off by default
@@ -107,14 +130,12 @@ function compile_topo(data,chanlocs,name)
 
     end
     
-    disp('Saving...');
+    % Save and compress
     save([name '.mat'],'anim','-v7.3');
     
-    % close all figures
-    close all
+    % Remove unnecessary .avi file
+    delete([name '.avi']);
     disp('Finished :)');
-    disp('You should now have two files');
-    disp(['File 1: ' name '.avi is used for the implay() function']);
-    disp(['File 2: ' name '.mat is used for the topo_player() function']);
+    disp(['The name of your file is ' name '.mat']);
     
 end
