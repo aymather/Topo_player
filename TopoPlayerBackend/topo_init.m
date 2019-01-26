@@ -95,14 +95,14 @@ function settings = topo_init(p,anim)
     
     % Button and progress bar positions
     if numframes ~= 1
-        settings.positions.start = [.68 .95 .31 .03];
-        settings.positions.exit = [.84 .9 .15 .03];
-        settings.positions.reset = [.68 .9 .15 .03];
+        settings.positions.start = [.68 .95 .31 .04];
+        settings.positions.exit = [.84 .9 .15 .04];
+        settings.positions.reset = [.68 .9 .15 .04];
         settings.positions.pbar = [movieX movieY-.08 movieW .018];
     elseif numframes == 1
-        settings.positions.start = [.5-(startW/2) .95 startW .03];
-        settings.positions.exit = [.5-(startW/2)+.15 .9 .15 .03];
-        settings.positions.reset = [.5-(startW/2) .9 .15 .03];
+        settings.positions.start = [.5-(startW/2) .95 startW .04];
+        settings.positions.exit = [.5-(startW/2)+.15 .9 .15 .04];
+        settings.positions.reset = [.5-(startW/2) .9 .15 .04];
         settings.positions.pbar = [movieX movieY-.08 movieW .018];
     end
     
