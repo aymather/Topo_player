@@ -24,7 +24,9 @@ In development
 4. The top section named "Compiler" is where you will select files to compile your movie.
 Data is your preprocessed EEG data matrix (columns = timepoints, rows = channel voltage). Chanlocs File is your standard chanlocs file. And at the end you can type in a file name and hit ENTER to name your file. _Note: do not give your file name an extension, the program will do this for you!_
 ![screen shot 2019-01-26 at 5 27 57 pm](https://user-images.githubusercontent.com/41848756/51794051-4fd6df80-2190-11e9-9b4b-0fa0d3f06482.png)
-5. 
+5. Once you have compiled your movie, you may now play it. At the bottom you can see the "Stage." This is where you will prepare your movie. 
+
+Since all we have at this point is a compiled movie, let's just load that in and play it. Click on "Select Movie File" and find the .mat file you just created. When you hit enter you should see that that file is chosen under the button you just pressed. Now hit "Play Movie." 
 
 # Additional Notes
 
