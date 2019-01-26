@@ -50,6 +50,10 @@ function topo_montage(filename,timeWindow,title)
 
         % Save compressed variable to a .mat file
         save([title '.mat'], 'frameData','-v7.3');
+        
+        % Delete the .avi file
+        file = [title '.avi'];
+        delete(file);
 
     end
 

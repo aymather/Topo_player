@@ -22,7 +22,7 @@ function varargout = TopoStudio(varargin)
 
 % Edit the above text to modify the response to help TopoStudio
 
-% Last Modified by GUIDE v2.5 25-Jan-2019 21:15:00
+% Last Modified by GUIDE v2.5 26-Jan-2019 10:35:38
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -79,8 +79,37 @@ varargout{1} = handles.output;
 
 
 % --- Executes on button press in pushbutton1.
+% --- Play Movie Button
 function pushbutton1_Callback(hObject, eventdata, handles)
-    topo_player('testFile.mat');
+
+    % Get Staged movie
+    Movie = handles.text29.String;
+
+    if checkPlayButton(Movie)
+    
+        % Get Staged Individual Frames
+        IndividualFrames.times = handles.IFrameTimes;
+        IndividualFrames.titles = handles.IFrameTitles;
+
+        % Get Staged Custom Frames
+        CustomFrames.times = handles.CFrameTimes;
+        CustomFrames.titles = handles.CFrameTitles;
+        CustomFrames.files = handles.CFrameFiles;
+
+        % Get Wait Time
+        WaitTime = str2double(handles.text30.String);
+
+        % Play movie
+        topo_player(Movie, ... 
+                    'WaitTime', WaitTime, ...
+                    'AddIndividualFrames', IndividualFrames, ...
+                    'AddCustomFrames', CustomFrames);
+        
+    else
+        
+        warning('You must have a valid movie file on your stage.');
+        
+    end
 
 
 function pushbutton5_Callback(hObject, eventdata, handles)
@@ -89,7 +118,7 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 function pushbutton4_Callback(hObject, eventdata, handles)
 
 
-% --- iframe add to stage pushbutton3 --- %
+% --- Add to Stage Individual Frame pushbutton3 --- %
 function pushbutton3_Callback(hObject, eventdata, handles)
 
     if checkIFrame(str2double(handles.edit1.String),handles.edit2.String)
@@ -114,6 +143,10 @@ function pushbutton3_Callback(hObject, eventdata, handles)
         warning(warn);
 
     end
+    
+    % Update handles structure
+    guidata(hObject, handles);
+    
 
 
 function edit1_Callback(hObject, eventdata, handles)
@@ -155,15 +188,16 @@ function edit3_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function edit3_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit3 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    % hObject    handle to edit3 (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    empty - handles not created until after all CreateFcns called
+
+    % Hint: edit controls usually have a white background on Windows.
+    %       See ISPC and COMPUTER.
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 function edit4_Callback(hObject, eventdata, handles)
@@ -223,6 +257,9 @@ function pushbutton7_Callback(hObject, eventdata, handles)
         warning(warn);
         
     end
+    
+    % Update handles structure
+    guidata(hObject, handles);
 
 
 % --- Executes on button press in pushbutton9.
@@ -454,7 +491,10 @@ function pushbutton14_Callback(hObject, eventdata, handles)
     handles.text24.String = {};
     handles.text25.String = {};
     handles.text29.String = 'No File Selected';
+    handles.text30.String = '0';
 
+    % Update handles structure
+    guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton15.
 % --- Pushbutton for get movie file
@@ -462,3 +502,37 @@ function pushbutton15_Callback(hObject, eventdata, handles)
 
     file = uigetfile;
     handles.text29.String = file;
+
+
+% --- Wait Time edit bar edit13
+% --- Updates text30
+function edit13_Callback(hObject, eventdata, handles)
+
+    time = str2double(handles.edit13.String);
+    
+    % Validate
+    if checkWaitTime(time)
+        
+        handles.text30.String = time; % update current time
+        handles.edit13.String = 'Wait Time (ms)'; % reset text on Wait Time edit text
+        
+    else
+        
+        warn = 'Invalid Input!';
+        warn = [warn newline 'Input must be an integer without any special characters including spaces.'];
+        warning(warn);
+        
+    end
+    
+
+% --- Executes during object creation, after setting all properties.
+function edit13_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
