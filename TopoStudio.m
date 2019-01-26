@@ -52,6 +52,9 @@ function TopoStudio_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to TopoStudio (see VARARGIN)
 
+% Add folder and subfolders to path
+addpath(genpath(fileparts(which('TopoStudio.m'))));
+
 % Init
 handles.settings = topo_studio_init;
 

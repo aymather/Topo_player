@@ -20,6 +20,9 @@ function topo_montage(filename,timeWindow,title)
     %       and .avi file of the image you just created
     %
     % % % % % % % % % % % % % % % % % % % % % % % % % % 
+    
+    % Add folder and subfolders to path
+    addpath(genpath(fileparts(which('TopoStudio.m'))));
 
     settings.srate = 500; % Hz
 

@@ -25,6 +25,9 @@ function topo_average(data,chanlocs,timeWindow,title)
     %       a .mat and .avi version of what you just created.
     %
     % % % % % % % % % % % % % % % % % % % % % % % % % % 
+    
+    % Add folder and subfolders to path
+    addpath(genpath(fileparts(which('TopoStudio.m'))));
  
     settings.srate = 500; % Hz
 

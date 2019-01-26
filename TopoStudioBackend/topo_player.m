@@ -73,7 +73,7 @@ function topo_player(filename,varargin)
     % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
     
     % Add folder and subfolders to path
-    addpath(genpath(fileparts(which('topo_player.m'))));
+    addpath(genpath(fileparts(which('TopoStudio.m'))));
 
     % Initialize the video reader.
     disp('Loading in Video File...');

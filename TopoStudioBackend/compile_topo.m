@@ -42,6 +42,9 @@ function compile_topo(data,chanlocs,name)
     %
     % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
     
+    % Add folder and subfolders to path
+    addpath(genpath(fileparts(which('TopoStudio.m'))));
+    
     % Load in Adrian's color map
     try load('AGF_cmap.mat'); catch; warning('Could not find file AGF_cmap.mat');end
         
