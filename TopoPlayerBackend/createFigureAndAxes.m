@@ -27,7 +27,7 @@ function [hFig, hAxes] = createFigureAndAxes(settings)
         fnames = fieldnames(settings.display);
         b = [];
         for it = 1:length(fnames)
-            b = [b, str2double(strip(fnames{it},'left','d'))];
+            b = [b, str2double(strip_it(fnames{it}))];
         end
         sorted = sort(b);
         

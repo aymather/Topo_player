@@ -37,9 +37,9 @@ function playCallback(hObject,~,hAxes,mySettings)
                 fnames = fieldnames(mySettings.display);
                 for ib = 1:length(fnames)
 
-                    if framenum == str2double(strip(fnames{ib},'left','d'))
+                    if framenum == str2double(strip_it(fnames{ib}))
 
-                        showFrameOnAxis(hAxes.(['axis' strip(fnames{ib},'left','d')]), mySettings.display.(fnames{ib}).frame); 
+                        showFrameOnAxis(hAxes.(['axis' strip_it(fnames{ib})]), mySettings.display.(fnames{ib}).frame); 
 
                     end
 
