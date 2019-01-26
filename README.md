@@ -22,8 +22,9 @@ In development
 3. At the command line type `TopoStudio` which will bring up the following GUI:
 ![screen shot 2019-01-26 at 5 27 44 pm](https://user-images.githubusercontent.com/41848756/51794036-e2c34a00-218f-11e9-9b72-959f2f5602a0.png)
 4. The top section named "Compiler" is where you will select files to compile your movie.
-Data is your preprocessed EEG data matrix (columns = timepoints, rows = channel voltage)
+Data is your preprocessed EEG data matrix (columns = timepoints, rows = channel voltage). Chanlocs File is your standard chanlocs file. And at the end you can type in a file name and hit ENTER to name your file. _Note: do not give your file name an extension, the program will do this for you!_
 ![screen shot 2019-01-26 at 5 27 57 pm](https://user-images.githubusercontent.com/41848756/51794051-4fd6df80-2190-11e9-9b4b-0fa0d3f06482.png)
+5. 
 
 # Additional Notes
 
