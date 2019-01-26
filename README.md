@@ -19,7 +19,7 @@ In development
 
 1. Clone/download files `git clone https://github.com/aymather/Topo_player.git`
 2. Add files to Matlab Path (don't forget to add with subfolders)
-
+3. At the command line type `TopoStudio` which will bring up the following GUI:
 ![screen shot 2019-01-26 at 5 27 44 pm](https://user-images.githubusercontent.com/41848756/51794036-e2c34a00-218f-11e9-9b72-959f2f5602a0.png)
 
 # Additional Notes
