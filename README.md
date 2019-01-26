@@ -32,6 +32,21 @@ Since all we have at this point is a compiled movie, let's just load that in and
 - Go to "Stage Individual Frames" and type in a time (in milliseconds) that you would like to see displayed along side your movie. _Important: This application assumes a sample rate of 500 Hz which means that for each column of data, two milliseconds have passed. Therefore, giving an odd number as an input will give you an error. Also, the very first column of your data (frame 1) is considered timepoint 0_
 - Then give your frame a title.
 - Once you have those two fields filled out, click "Add to Stage". You should see now at the Staging area that the title of your frame has been added! The Staging area will keep track of all the settings currently staged. Now you can add a couple more individual frames, or you can click "Play Movie."
+7. If you want to stage a Custom frame, you must first create it. Go just above to the sections titled "Create Custom Montage" and "Create Custom Average."
+![screen shot 2019-01-26 at 5 28 10 pm](https://user-images.githubusercontent.com/41848756/51794201-0936b480-2193-11e9-8260-bc06cd185c63.png)
+###### Custom Montage
+- A custom montage will look like an array of topoplots all placed into a single frame.
+- Select your movie file that you created from step 4.
+- Give your range of time points from start to finish.
+- Finally, name the new custom frame (don't give it an extension).
+- _Important: Montage frames are currently not supported in Matlab versions earlier than 2018_
+
+###### Custom Average
+- A custom averaged frame takes averages from your EEG data, so you need those raw files.
+- Select your preprocessed EEG data.
+- Select your chanlocs file.
+- Give a time range to average together.
+- Name your file, without an extension.
 
 # Additional Notes
 
