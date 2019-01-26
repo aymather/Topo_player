@@ -1,4 +1,4 @@
-% Validator function for individual frames
+% Validator for Stage Individual Frames Quadrant
 function bool = checkIFrame(time, title)
     if ~isnan(time) && ~mod(time,2) && ischar(title)
         bool = 1; 

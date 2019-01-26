@@ -25,7 +25,7 @@ function topo_montage(filename,timeWindow,title)
 
     try load(filename,'anim'); catch; warning('Something went wrong trying to load your .mat file'); return; end
     
-    figure('Color','white'); % open figure
+    figure('Color','white','Visible','off'); % open figure
     montage(anim(time2frame(settings,timeWindow(1)):time2frame(settings,timeWindow(end))));
     
     if nargin > 2
