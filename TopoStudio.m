@@ -22,7 +22,7 @@ function varargout = TopoStudio(varargin)
 
 % Edit the above text to modify the response to help TopoStudio
 
-% Last Modified by GUIDE v2.5 26-Jan-2019 10:35:38
+% Last Modified by GUIDE v2.5 26-Jan-2019 12:31:14
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -221,9 +221,10 @@ function edit4_CreateFcn(hObject, eventdata, handles)
 % --- Select custom.mat file pushbutton
 function pushbutton6_Callback(hObject, eventdata, handles)
 
-    % Open a file to select
     customFile = uigetfile;
-    handles.text10.String = customFile;
+    if customFile ~= 0
+        handles.text10.String = customFile;
+    end
 
 
 function pushbutton8_Callback(hObject, eventdata, handles)
@@ -354,18 +355,20 @@ function pushbutton10_Callback(hObject, eventdata, handles)
 % --- Select Data for Create Averaged Frame
 function pushbutton11_Callback(hObject, eventdata, handles)
 
-    % Open a window to get file
     dataFile = uigetfile;
-    handles.text13.String = dataFile;
+    if dataFile ~= 0
+        handles.text13.String = dataFile;
+    end
 
 
 % --- Executes on button press in pushbutton12.
 % --- Select Chanlocs for Create Averaged Frame
 function pushbutton12_Callback(hObject, eventdata, handles)
 
-    % Open a window to get file
     chanlocsFile = uigetfile;
-    handles.text14.String = chanlocsFile;
+    if chanlocsFile ~= 0
+        handles.text14.String = chanlocsFile;
+    end
 
 
 function edit5_Callback(hObject, eventdata, handles)
@@ -424,7 +427,9 @@ function edit7_CreateFcn(hObject, eventdata, handles)
 function pushbutton13_Callback(hObject, eventdata, handles)
 
     file = uigetfile;
-    handles.text18.String = file;
+    if file ~= 0
+        handles.text18.String = file;
+    end
 
 
 function edit10_Callback(hObject, eventdata, handles)
@@ -500,8 +505,10 @@ function pushbutton14_Callback(hObject, eventdata, handles)
 % --- Pushbutton for get movie file
 function pushbutton15_Callback(hObject, eventdata, handles)
 
-    file = uigetfile;
-    handles.text29.String = file;
+	file = uigetfile;
+    if file ~= 0
+        handles.text29.String = file;
+    end
 
 
 % --- Wait Time edit bar edit13
@@ -536,3 +543,86 @@ function edit13_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in pushbutton16.
+% --- Get data file for compiler
+function pushbutton16_Callback(hObject, eventdata, handles)
+
+    file = uigetfile;
+    if file ~= 0
+        handles.pushbutton16.String = file;
+    end
+    
+
+% --- Executes on button press in pushbutton17.
+% --- Get chanlocs for compiler
+function pushbutton17_Callback(hObject, eventdata, handles)
+
+	file = uigetfile;
+    if file ~= 0
+        handles.pushbutton17.String = file;
+    end
+
+% --- Executes on button press in pushbutton18.
+% --- Reset compiler button
+function pushbutton18_Callback(hObject, eventdata, handles)
+
+    handles.text32.String = 'default';
+    handles.pushbutton17.String = 'Select Chanlocs';
+    handles.pushbutton16.String = 'Select Data';
+
+
+% --- Give filename edit14 bar callback
+% --- Change text32
+function edit14_Callback(hObject, eventdata, handles)
+
+    filename = handles.edit14.String; % get from text bar
+    handles.text32.String = filename; % update filename
+    handles.edit14.String = 'File Name';% reset edit bar text
+
+
+% --- Executes during object creation, after setting all properties.
+function edit14_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit14 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton20.
+% --- Compiler button
+% --- pushbutton16::pushbutton17::text32
+function pushbutton20_Callback(hObject, eventdata, handles)
+    
+    % Validate inputs
+    if exist(handles.pushbutton16.String, 'file') == 2 && exist(handles.pushbutton17.String, 'file')
+        
+        % Extract data
+        loadData = load(handles.pushbutton16.String);
+        dataFieldnames = fieldnames(loadData);
+        data = loadData.(dataFieldnames{1});
+
+        % Extract chanlocs
+        loadChanlocs = load(handles.pushbutton17.String);
+        chanlocsFieldnames = fieldnames(loadChanlocs);
+        chanlocs = loadChanlocs.(chanlocsFieldnames{1});
+    
+        % Get filename
+        name = handles.text32.String;
+        
+        % Compile
+        compile_topo(data, chanlocs, name);
+        
+    else
+        
+        warn = "Couldn't compile, you might be missing some inputs or chosen a file that does not exist.";
+        warning(warn);
+        
+    end
+    
