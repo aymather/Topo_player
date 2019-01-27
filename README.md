@@ -60,8 +60,9 @@ Since all we have at this point is a compiled movie, let's just load that in and
 
 10. If you don't like what's on your stage, no worries! There's a "Reset Stage" button right next to the "Play Movie" button. It will clear your entire stage.
 
-# Additional Notes
+# Pull Request Suggestions
 
-This project is still in development. I will be adding a GUI interface for most of (if not all) the steps above to make it more user friendly. I am also having a speed issue, where the fps capabilities is still lacking quite a bit. Any support or guidance on that issue is appreciated.
+- Speed issue: Currently the movie cannot play very fast. Looking for a more effecient way to display frames in topo_player()
+- Support for Create Montage Frame: Find a way to support montage frames for Matlab versions earlier than 2018.
 
 > Program written by: [Alec Mather](https://github.com/aymather)
