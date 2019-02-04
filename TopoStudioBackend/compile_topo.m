@@ -118,18 +118,27 @@ function compile_topo(data,chanlocs,name)
     % off by default
     warning off MATLAB:subscripting:noSubscriptsSpecified
     
-    % Write images into 'anim' variable for topo_player()
-    videoSrc = vision.VideoFileReader([name '.avi'], 'ImageColorSpace', 'RGB');
+    % Get current version of matlab to know how to handle anim variable
+    v = ver('symbolic');
     
-    clear anim % clear the anim variable to write into corrrect format
-    i = 1; % init counter
-    while ~isDone(videoSrc)
+    % Matlab 2018 saves this anim variable differently than
+    % in 2017 so we need to convert it if we're using 2018
+    if all(v.Release == '(R2018a)') || all(v.Release == '(R2018b)')
+    
+        % Write images into 'anim' variable for topo_player()
+        videoSrc = vision.VideoFileReader([name '.avi'], 'ImageColorSpace', 'RGB');
 
-        anim{i} = step(videoSrc);
-        i = i+1;
+        clear anim % clear the anim variable to write into corrrect format
+        i = 1; % init counter
+        while ~isDone(videoSrc)
 
+            anim{i} = step(videoSrc);
+            i = i+1;
+
+        end
+        
     end
-    
+        
     % Save and compress
     save([name '.mat'],'anim','-v7.3');
     
