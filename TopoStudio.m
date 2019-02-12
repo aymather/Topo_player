@@ -627,7 +627,7 @@ function pushbutton20_Callback(hObject, eventdata, handles)
         
     else
         
-        warn = "Couldn't compile, you might be missing some inputs or chosen a file that does not exist.";
+        warn = 'Couldnt compile, you might be missing some inputs or chosen a file that does not exist.';
         warning(warn);
         
     end
