@@ -143,9 +143,7 @@ function pushbutton3_Callback(hObject, eventdata, handles)
     else
         
         % Give warning if something goes wrong
-        warn = 'Invalid inputs!';
-        warn = [warn newline 'Both a title and a capture time are required'];
-        warn = [warn newline 'Capture Time must be an even number and not contain any special characters including spaces.'];
+        warn = sprintf('Invalid inputs! \n Both a title and a capture time are required \n Capture Time must be an even number and not contain any special characters including spaces.');
         warning(warn);
 
     end
@@ -258,9 +256,7 @@ function pushbutton7_Callback(hObject, eventdata, handles)
     else
         
         % Give warning if something goes wrong
-        warn = 'Invalid Inputs!';
-        warn = [warn newline 'All fields required: .mat file, display time, and title.'];
-        warn = [warn newline 'File must exist and display time must be an even number without any special characters including spaces.'];
+        warn = sprintf('Invalid Inputs! \n All fields required: .mat file, display time, and title. \n File must exist and display time must be an even number without any special characters including spaces.');
         warning(warn);
         
     end
@@ -299,9 +295,7 @@ function pushbutton9_Callback(hObject, eventdata, handles)
     else
         
         % Give warning if something goes wrong
-        warn = 'Invalid Inputs!';
-        warn = [warn newline 'All fields required: a compiled .mat file, time window, and title without an extension.'];
-        warn = [warn newline 'Compiled file must exist, time window must be even integers without any special characters including spaces.'];
+        warn = sprintf('Invalid Inputs! \n All fields required: a compiled .mat file, time window, and title without an extension. \n Compiled file must exist, time window must be even integers without any special characters including spaces.');
         warning(warn);
         
     end
@@ -349,9 +343,7 @@ function pushbutton10_Callback(hObject, eventdata, handles)
     else
         
         % Give warning if something goes wrong
-        warn = 'Invalid Inputs!';
-        warn = [warn newline 'All fields required: a compiled .mat file, time window, and title without an extension.'];
-        warn = [warn newline 'Files must exist, time window must be even integers without any special characters including spaces.'];
+        warn = sprintf('Invalid Inputs! \n All fields required: a compiled .mat file, time window, and title without an extension. \n Files must exist, time window must be even integers without any special characters including spaces.');
         warning(warn);
         
     end
@@ -531,8 +523,7 @@ function edit13_Callback(hObject, eventdata, handles)
         
     else
         
-        warn = 'Invalid Input!';
-        warn = [warn newline 'Input must be an integer without any special characters including spaces.'];
+        warn = sprintf('Invalid Input! \n Input must be an integer without any special characters including spaces.');
         warning(warn);
         
     end
