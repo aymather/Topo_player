@@ -37,7 +37,11 @@ function settings = topo_init(p,anim)
         for i = 1:length(cframes)
             
             settings.display.(['d' num2str(cframes(i))]).title = p.Results.AddIndividualFrames.titles{i};
-            settings.display.(['d' num2str(cframes(i))]).frame = settings.anim{cframes(i)};
+            if all(settings.matlab == '(R2018a)') || all(settings.matlab == '(R2018b)')
+                settings.display.(['d' num2str(cframes(i))]).frame = settings.anim{cframes(i)};
+            else
+                settings.display.(['d' num2str(cframes(i))]).frame = settings.anim(cframes(i)).cdata;
+            end
             
         end
         
