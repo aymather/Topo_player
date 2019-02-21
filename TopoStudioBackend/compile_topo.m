@@ -78,7 +78,7 @@ function compile_topo(data,chanlocs,name)
         frame = getframe;
         
         % place snapshot into animation variable
-        anim(iframe) = frame;
+        animation(iframe) = frame;
         
         % increase iframe increment
         iframe = iframe + 1;
@@ -88,30 +88,6 @@ function compile_topo(data,chanlocs,name)
 
     end
     
-    close(bar);
-    
-    % create video object/open for writing
-    writerObj = VideoWriter([name '.avi']);
-    open(writerObj);
-    
-    % Init waitbar
-    bar = waitbar(0,'Starting...');
-    total = length(anim);
-    
-    % write frames into .avi file
-    for i = 1:total
-        
-        % update waitbar
-        str = [num2str(round((i/total)*100)) catString];
-        waitbar(i/total, bar, str);
-        
-        frame = anim(i).cdata;
-        writeVideo(writerObj,frame);
-        
-    end
-    
-    % Close objects
-    close(writerObj);
     close(bar);
     
     % This warning is a known issue at mathworks and should be turned 
@@ -124,6 +100,30 @@ function compile_topo(data,chanlocs,name)
     % Matlab 2018 saves this anim variable differently than
     % in 2017 so we need to convert it if we're using 2018
     if all(v.Release == '(R2018a)') || all(v.Release == '(R2018b)')
+    
+        % create video object/open for writing
+        writerObj = VideoWriter([name '.avi']);
+        open(writerObj);
+
+        % Init waitbar
+        bar = waitbar(0,'Starting...');
+        total = length(animation);
+
+        % write frames into .avi file
+        for i = 1:total
+
+            % update waitbar
+            str = [num2str(round((i/total)*100)) catString];
+            waitbar(i/total, bar, str);
+
+            frame = anim(i).cdata;
+            writeVideo(writerObj,frame);
+
+        end
+
+        % Close objects
+        close(writerObj);
+        close(bar);
     
         % Write images into 'anim' variable for topo_player()
         videoSrc = vision.VideoFileReader([name '.avi'], 'ImageColorSpace', 'RGB');
