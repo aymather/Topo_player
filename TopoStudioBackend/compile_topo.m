@@ -75,7 +75,7 @@ function compile_topo(data,chanlocs,name)
         colormap(AGF_cmap);
         
         % get snapshot
-        frame = getframe;
+        frame = getframe(h);
         
         % place snapshot into animation variable
         animation(iframe) = frame;
@@ -116,7 +116,7 @@ function compile_topo(data,chanlocs,name)
             str = [num2str(round((i/total)*100)) catString];
             waitbar(i/total, bar, str);
 
-            frame = anim(i).cdata;
+            frame = animation(i).cdata;
             writeVideo(writerObj,frame);
 
         end
@@ -128,7 +128,6 @@ function compile_topo(data,chanlocs,name)
         % Write images into 'anim' variable for topo_player()
         videoSrc = vision.VideoFileReader([name '.avi'], 'ImageColorSpace', 'RGB');
 
-        clear anim % clear the anim variable to write into corrrect format
         i = 1; % init counter
         while ~isDone(videoSrc)
 
