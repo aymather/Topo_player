@@ -148,6 +148,7 @@ function compile_topo(data,chanlocs,name)
     % Save and compress
     save([name '.mat'],'anim','-v7.3');
     
+    close(h)
     disp('Finished :)');
     disp(['The name of your file is ' name '.mat']);
     
