@@ -26,8 +26,12 @@ function playCallback(hObject,~,hAxes,mySettings)
             % Update main movie
             hAxes.ui1.String = ['Frame ' num2str(framenum) ' : Time Lapsed ' num2str(frame2time(mySettings,framenum)) 'ms'];
 
-            % Display main video frame on axis
-            showFrameOnAxis(hAxes.axis1, mySettings.anim{framenum});
+            % Display input video frame on axis
+            if all(mySettings.matlab == '(R2018a)') || all(mySettings.matlab == '(R2018b)')
+                showFrameOnAxis(hAxes.axis1, settings.anim{framenum});
+            else
+                showFrameOnAxis(hAxes.axis1, settings.anim(framenum).cdata);
+            end
             
             % Update progress bar
             status = framenum / length(mySettings.anim);

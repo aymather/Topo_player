@@ -121,6 +121,10 @@ function topo_player(filename,varargin)
     insertButtons(hFig, hAxes, settings);
     
     % Display input video frame on axis
-    showFrameOnAxis(hAxes.axis1, settings.anim{framenum});
+    if all(settings.matlab == '(R2018a)') || all(settings.matlab == '(R2018b)')
+        showFrameOnAxis(hAxes.axis1, settings.anim{framenum});
+    else
+        showFrameOnAxis(hAxes.axis1, settings.anim(framenum).cdata);
+    end
 
 end

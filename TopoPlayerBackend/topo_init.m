@@ -12,6 +12,10 @@ function settings = topo_init(p,anim)
     % Animation Video
     settings.anim = anim;
     
+    % Matlab version
+    v = ver('symbolic');
+    settings.matlab = v.Release;
+    
     % Deconstruct Objects from inputParser
     
     % Individual Frames
