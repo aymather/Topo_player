@@ -28,9 +28,9 @@ function playCallback(hObject,~,hAxes,mySettings)
 
             % Display input video frame on axis
             if all(mySettings.matlab == '(R2018a)') || all(mySettings.matlab == '(R2018b)')
-                showFrameOnAxis(hAxes.axis1, settings.anim{framenum});
+                showFrameOnAxis(hAxes.axis1, mySettings.anim{framenum});
             else
-                showFrameOnAxis(hAxes.axis1, settings.anim(framenum).cdata);
+                showFrameOnAxis(hAxes.axis1, mySettings.anim(framenum).cdata);
             end
             
             % Update progress bar

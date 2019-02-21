@@ -137,13 +137,18 @@ function compile_topo(data,chanlocs,name)
 
         end
         
+        % Remove unnecessary .avi file
+        delete([name '.avi']);
+        
+    else
+        
+        anim = animation;
+        
     end
         
     % Save and compress
     save([name '.mat'],'anim','-v7.3');
     
-    % Remove unnecessary .avi file
-    delete([name '.avi']);
     disp('Finished :)');
     disp(['The name of your file is ' name '.mat']);
     
