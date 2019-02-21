@@ -45,6 +45,9 @@ function compile_topo(data,chanlocs,name)
     % Add folder and subfolders to path
     addpath(genpath(fileparts(which('TopoStudio.m'))));
     
+    % set handle and remove visibility
+    h = figure('visible','on','Color','white');
+    
     % Load in Adrian's color map
     try load('AGF_cmap.mat'); catch; warning('Could not find file AGF_cmap.mat');end
     
@@ -55,9 +58,6 @@ function compile_topo(data,chanlocs,name)
         
     % set increments for iframes
     iframe = 1;
-    
-    % set handle and remove visibility
-    h = figure('visible','off','Color','white');
     
     for i = 1:total
         
