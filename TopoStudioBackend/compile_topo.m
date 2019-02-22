@@ -45,17 +45,17 @@ function compile_topo(data,chanlocs,name)
     % Add folder and subfolders to path
     addpath(genpath(fileparts(which('TopoStudio.m'))));
     
+    % Init waitbar
+    bar = waitbar(0,'Starting...');
+    total = size(data,2);
+    catString = '% complete...';
+    
     % set handle and remove visibility
     h = figure('visible','on','Color','white');
     
     % Load in Adrian's color map
     try load('AGF_cmap.mat'); catch; warning('Could not find file AGF_cmap.mat');end
     
-    % Init waitbar
-    bar = waitbar(0,'Starting...');
-    total = size(data,2);
-    catString = '% complete...';
-        
     % set increments for iframes
     iframe = 1;
     
@@ -75,17 +75,17 @@ function compile_topo(data,chanlocs,name)
         colormap(AGF_cmap);
         
         % get snapshot
-        frame = getframe(h);
+        frame = getframe;
         
         % place snapshot into animation variable
-        animation(iframe) = frame;
+        anim(iframe) = frame;
         
         % increase iframe increment
         iframe = iframe + 1;
         
         % Clear axes to keep clean
         cla(h);
-
+        
     end
     
     close(bar);
@@ -107,7 +107,7 @@ function compile_topo(data,chanlocs,name)
 
         % Init waitbar
         bar = waitbar(0,'Starting...');
-        total = length(animation);
+        total = length(anim);
 
         % write frames into .avi file
         for i = 1:total
@@ -116,7 +116,7 @@ function compile_topo(data,chanlocs,name)
             str = [num2str(round((i/total)*100)) catString];
             waitbar(i/total, bar, str);
 
-            frame = animation(i).cdata;
+            frame = anim(i).cdata;
             writeVideo(writerObj,frame);
 
         end
@@ -129,6 +129,7 @@ function compile_topo(data,chanlocs,name)
         videoSrc = vision.VideoFileReader([name '.avi'], 'ImageColorSpace', 'RGB');
 
         i = 1; % init counter
+        clear anim
         while ~isDone(videoSrc)
 
             anim{i} = step(videoSrc);
