@@ -42,79 +42,86 @@ function compile_topo(data,chanlocs,name)
     %
     % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
     
+    % Get current version of matlab to know how to handle anim variable
+    v = ver('symbolic');
+    
     % Add folder and subfolders to path
     addpath(genpath(fileparts(which('TopoStudio.m'))));
     
     % Init waitbar
-    bar = waitbar(0,'Starting...');
     total = size(data,2);
-    catString = '% complete...';
+    catstring = [' out of ' num2str(total) ' frames processed'];
+    currentCount = 1;
+    title = 'Compiler started...\n\n';
     
     % set handle and remove visibility
-    h = figure('visible','on','Color','white');
+    h = figure('visible','off','Color','white');
     
     % Load in Adrian's color map
     try load('AGF_cmap.mat'); catch; warning('Could not find file AGF_cmap.mat');end
     
+    % For loop that handles waitbar percentages
+    fprintf(title);
+    
     % set increments for iframes
     iframe = 1;
-    
+
     for i = 1:total
-        
-        % update waitbar
-        str = [num2str(round((i/total)*100)) catString];
-        waitbar((i/total), bar, str);
-        
+
         % separate each frame
         x = data(:,i);
-        
+
         % create topoplot
         topoplot(x,chanlocs,'whitebk','on');
-        
+
         % Add in Adrian's colormap
         colormap(AGF_cmap);
-        
+
         % get snapshot
         frame = getframe;
-        
+
         % place snapshot into animation variable
         anim(iframe) = frame;
-        
+
         % increase iframe increment
         iframe = iframe + 1;
-        
+
         % Clear axes to keep clean
-        cla(h);
+        clf;
         
+        % Update command line
+        if currentCount > 1
+            if length(num2str(currentCount)) == (length(num2str(currentCount - 1))) && currentCount > 1
+                len = length(num2str(currentCount)) + length(catstring);
+            else
+                len = length(num2str(currentCount)) + length(catstring) - 1;
+            end
+            for j = 1:(len)
+                fprintf('\b');
+            end
+        end
+        fprintf([num2str(currentCount) catstring]);
+        currentCount = currentCount + 1;
+        pause(.0001);
+
     end
-    
-    close(bar);
-    
+
     % This warning is a known issue at mathworks and should be turned 
     % off by default
     warning off MATLAB:subscripting:noSubscriptsSpecified
     
-    % Get current version of matlab to know how to handle anim variable
-    v = ver('symbolic');
+    fprintf('\n\nSaving, please wait...');
     
     % Matlab 2018 saves this anim variable differently than
     % in 2017 so we need to convert it if we're using 2018
     if all(v.Release == '(R2018a)') || all(v.Release == '(R2018b)')
-    
+
         % create video object/open for writing
         writerObj = VideoWriter([name '.avi']);
         open(writerObj);
 
-        % Init waitbar
-        bar = waitbar(0,'Starting...');
-        total = length(anim);
-
         % write frames into .avi file
         for i = 1:total
-
-            % update waitbar
-            str = [num2str(round((i/total)*100)) catString];
-            waitbar(i/total, bar, str);
 
             frame = anim(i).cdata;
             writeVideo(writerObj,frame);
@@ -123,8 +130,7 @@ function compile_topo(data,chanlocs,name)
 
         % Close objects
         close(writerObj);
-        close(bar);
-    
+
         % Write images into 'anim' variable for topo_player()
         videoSrc = vision.VideoFileReader([name '.avi'], 'ImageColorSpace', 'RGB');
 
@@ -136,21 +142,17 @@ function compile_topo(data,chanlocs,name)
             i = i+1;
 
         end
-        
+
         % Remove unnecessary .avi file
         delete([name '.avi']);
-        
-    else
-        
-        anim = animation;
-        
+
     end
-        
+
     % Save and compress
     save([name '.mat'],'anim','-v7.3');
-    
+            
     close(h)
     disp('Finished :)');
-    disp(['The name of your file is ' name '.mat']);
+    disp(['The name of your movie file is ' name '.mat']);
     
 end
