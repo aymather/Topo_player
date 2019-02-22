@@ -8,7 +8,6 @@ This documentation will explain the functions in the Topo_player package.
 - [compile_topo()]()
 - [topo_montage()]()
 - [topo_average()]()
-- [topo_player() vs implay()]()
 
 # topo_player setup
 Description: This section will explain how to create settings for the `topo_player()` function which you will need to input.
@@ -103,11 +102,6 @@ Inputs:
 3. (required, double) Range of time points (in ms) that you want to average together.
 
 4. (required, char) Name of the file that you're creating. _Note: Do not add an extension, the program will do this for you._
-
-# topo_player vs implay
-
-If you only want to view your movie without extracting any frames, then use the `implay()` function with your '.avi' file created by `compile_topo()` like so:
-`implay('example.avi');`
 
 If you do want to extract frames or add custom frames, then use the `topo_player()` function.
 
