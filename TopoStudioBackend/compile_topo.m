@@ -42,6 +42,10 @@ function compile_topo(data,chanlocs,name)
     %
     % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
     
+    % Close all figures and axes so that frame size cannot get messed up
+    close all;
+    close(TopoStudio);
+    
     % Get current version of matlab to know how to handle anim variable
     v = ver('symbolic');
     
@@ -78,7 +82,7 @@ function compile_topo(data,chanlocs,name)
         colormap(AGF_cmap);
 
         % get snapshot
-        frame = getframe;
+        frame = getframe(h);
 
         % place snapshot into animation variable
         anim(iframe) = frame;
@@ -154,5 +158,6 @@ function compile_topo(data,chanlocs,name)
     close(h)
     disp('Finished :)');
     disp(['The name of your movie file is ' name '.mat']);
+    TopoStudio;
     
 end
