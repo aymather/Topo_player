@@ -12,7 +12,7 @@ function resetCallback(~,~,hAxes,settings)
     end
         
     % Reset title
-    hAxes.ui1.String = ['Frame ' num2str(framenum) ' : Time Lapsed ' num2str(frame2time(settings,framenum)) 'ms'];
+    hAxes.ui1.String = ['Time Lapsed ' num2str(frame2time(settings,framenum)) 'ms'];
     
     % Reset progress bar
     status = framenum/length(settings.anim); % get length of loaded frames
