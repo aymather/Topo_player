@@ -22,7 +22,7 @@ function varargout = TopoStudio(varargin)
 
 % Edit the above text to modify the response to help TopoStudio
 
-% Last Modified by GUIDE v2.5 26-Jan-2019 12:31:14
+% Last Modified by GUIDE v2.5 24-Feb-2019 15:58:59
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -104,10 +104,14 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 
         % Get Wait Time
         WaitTime = str2double(handles.text30.String);
+        
+        % Export to .avi?
+        Export = get(handles.checkbox1, 'Value');
 
         % Play movie
         topo_player(Movie, ... 
                     'WaitTime', WaitTime, ...
+                    'Export', Export, ...
                     'AddIndividualFrames', IndividualFrames, ...
                     'AddCustomFrames', CustomFrames);
         
@@ -151,7 +155,6 @@ function pushbutton3_Callback(hObject, eventdata, handles)
     % Update handles structure
     guidata(hObject, handles);
     
-
 
 function edit1_Callback(hObject, eventdata, handles)
 
@@ -623,3 +626,12 @@ function pushbutton20_Callback(hObject, eventdata, handles)
         
     end
     
+
+
+% --- Executes on button press in checkbox1.
+function checkbox1_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox1

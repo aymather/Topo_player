@@ -81,6 +81,7 @@ function topo_player(filename,varargin)
     
     % Defaults
     defaultWaitTime = 0;
+    defaultExport = 1;
     
     % Function checks
     validSingleObj = @(x) isstruct(x) && ... % object is a struct with fields
@@ -101,6 +102,7 @@ function topo_player(filename,varargin)
     p = inputParser;
     addRequired(p,'FileName');
     addParameter(p,'WaitTime',defaultWaitTime);
+    addParameter(p,'Export',defaultExport);
     addParameter(p,'AddIndividualFrames',[],validSingleObj);
     addParameter(p,'AddCustomFrames',[],validCustomFrame);
     
@@ -108,17 +110,20 @@ function topo_player(filename,varargin)
     parse(p,filename,varargin{:});
     
     % Initialize settings
-    settings = topo_init(p,anim);
+    settings = topo_init(p,anim,filename);
     
     % Init frame counter
-    global framenum; framenum = 1;
+    global framenum; framenum = 1; global EXPORT_OBJ;
 
     % Axes/Buttons
     % Create a figure window and axes to display
     [hFig, hAxes] = createFigureAndAxes(settings);
-
-    % Add buttons to control video playback.
-    insertButtons(hFig, hAxes, settings);
+    
+    % Remove buttons if we are exporting to .avi file
+    if ~settings.export
+        % Add buttons to control video playback.
+        insertButtons(hFig, hAxes, settings);
+    end
     
     % Display input video frame on axis
     if all(settings.matlab == '(R2018a)') || all(settings.matlab == '(R2018b)')
@@ -126,5 +131,40 @@ function topo_player(filename,varargin)
     else
         showFrameOnAxis(hAxes.axis1, settings.anim(framenum).cdata);
     end
+    
+    % If we're exporting, just start the movie and export result
+    if settings.export
+        
+        % Close TopoStudio to prevent confusion
+        close(TopoStudio);
+        keyboard
+        % Start movie
+        exportObj = playCallback(hFig,[],hAxes,settings);
+    
+        % Remove extension from filename
+        file = filename(1:(end - 4));
+        
+        fprintf('Writing frames to .avi file...please wait...|');
+        
+        % create video object/open for writing
+        writerObj = VideoWriter([file '.avi']);
+        open(writerObj);
+        
+        % Spinner Array
+        spinner = '|/-|\|/-\'; count = 1;
+        
+        % write frames into .avi file
+        for ib = 1:length(exportObj)
+            
+            fprintf(['\b' spinner(count)]);
+            count = count + 1; if count > length(spinner); count = 1; end
+            frame = exportObj(ib).cdata;
+            writeVideo(writerObj,frame);
 
+        end
+        
+        close(writerObj);
+        
+    end
+    keyboard
 end

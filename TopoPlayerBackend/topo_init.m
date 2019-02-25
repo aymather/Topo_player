@@ -1,7 +1,10 @@
-function settings = topo_init(p,anim)
+function settings = topo_init(p,anim,filename)
     
     % Make a settings variable for things you need to pass so
     % as to reduce confusion and make things cleaner
+    
+    % Export to .avi file? (bool)
+    settings.export = p.Results.Export;
     
     % Sample Rate
     settings.srate = 500; % Hz

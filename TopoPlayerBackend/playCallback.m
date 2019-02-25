@@ -1,30 +1,32 @@
 % Play Button Callback
-function playCallback(hObject,~,hAxes,mySettings)
+function exportObj = playCallback(hObject,~,hAxes,mySettings)
    
    % Init global variables
    global framenum;
 
    try
-       
-        % Check the status of play button
-        isTextStart = strcmp(hObject.String,'Start');
-        isTextCont  = strcmp(hObject.String,'Continue');
-        if (isTextStart || isTextCont)
-            hObject.String = 'Pause';
-        else
-            hObject.String = 'Continue';
+        
+        if ~mySettings.export
+            % Check the status of play button
+            isTextStart = strcmp(hObject.String,'Start');
+            isTextCont  = strcmp(hObject.String,'Continue');
+            if (isTextStart || isTextCont)
+                hObject.String = 'Pause';
+            else
+                hObject.String = 'Continue';
+            end
         end
-
+        
         % Rotate input video frame and display original and rotated
         % frames on figure
-        while strcmp(hObject.String, 'Pause')
-
-            if framenum < length(mySettings.anim)
-                framenum = framenum + 1;
+        while framenum <= length(mySettings.anim)
+            
+            if mySettings.export
+                exportObj(framenum) = getframe(gcf);
             end
             
             % Update main movie
-            hAxes.ui1.String = ['Frame ' num2str(framenum) ' : Time Lapsed ' num2str(frame2time(mySettings,framenum)) 'ms'];
+            hAxes.ui1.String = ['Time Lapsed ' num2str(frame2time(mySettings,framenum)) 'ms'];
 
             % Display input video frame on axis
             if all(mySettings.matlab == '(R2018a)') || all(mySettings.matlab == '(R2018b)')
@@ -52,16 +54,22 @@ function playCallback(hObject,~,hAxes,mySettings)
                  
             % Pause for slow motion
             pause(mySettings.durations.waitTime/1000);
+            
+            disp(num2str(framenum));
+            
+            if framenum <= length(mySettings.anim)
+                framenum = framenum + 1;
+            end
 
+            % When video reaches the end of file, display "Start" on the
+            % play button.
+            if framenum == length(mySettings.anim) && ~mySettings.export
+               hObject.String = 'Start';
+               framenum = 1;
+            end
+            
         end
-
-        % When video reaches the end of file, display "Start" on the
-        % play button.
-        if framenum == length(mySettings.anim)
-           hObject.String = 'Start';
-           framenum = 1;
-        end
-
+        
    catch ME
 
        % Re-throw error message if it is not related to invalid handle 
