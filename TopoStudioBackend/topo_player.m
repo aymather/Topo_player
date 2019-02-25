@@ -81,7 +81,7 @@ function topo_player(filename,varargin)
     
     % Defaults
     defaultWaitTime = 0;
-    defaultExport = 1;
+    defaultExport = 0;
     
     % Function checks
     validSingleObj = @(x) isstruct(x) && ... % object is a struct with fields
@@ -113,7 +113,7 @@ function topo_player(filename,varargin)
     settings = topo_init(p,anim,filename);
     
     % Init frame counter
-    global framenum; framenum = 1; global EXPORT_OBJ;
+    global framenum; framenum = 1;
 
     % Axes/Buttons
     % Create a figure window and axes to display
@@ -137,7 +137,7 @@ function topo_player(filename,varargin)
         
         % Close TopoStudio to prevent confusion
         close(TopoStudio);
-        keyboard
+        
         % Start movie
         exportObj = playCallback(hFig,[],hAxes,settings);
     
@@ -151,20 +151,21 @@ function topo_player(filename,varargin)
         open(writerObj);
         
         % Spinner Array
-        spinner = '|/-|\|/-\'; count = 1;
+        spinner = [{'|'},{'/'},{'-'},{'\\'},{'|'},{'/'},{'-'},{'\\'}]; count = 1;
         
         % write frames into .avi file
         for ib = 1:length(exportObj)
             
-            fprintf(['\b' spinner(count)]);
+            fprintf(['\b' spinner{count}]);
             count = count + 1; if count > length(spinner); count = 1; end
             frame = exportObj(ib).cdata;
             writeVideo(writerObj,frame);
 
         end
         
+        fprintf('\nFinished!\n');
         close(writerObj);
         
     end
-    keyboard
+    
 end

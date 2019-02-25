@@ -15,11 +15,14 @@ function exportObj = playCallback(hObject,~,hAxes,mySettings)
             else
                 hObject.String = 'Continue';
             end
+            isPaused = strcmp(hObject.String,'Pause');
+        else
+            isPaused = 1;
         end
         
         % Rotate input video frame and display original and rotated
         % frames on figure
-        while framenum <= length(mySettings.anim)
+        while framenum <= length(mySettings.anim) && isPaused
             
             if mySettings.export
                 exportObj(framenum) = getframe(gcf);
@@ -54,9 +57,7 @@ function exportObj = playCallback(hObject,~,hAxes,mySettings)
                  
             % Pause for slow motion
             pause(mySettings.durations.waitTime/1000);
-            
-            disp(num2str(framenum));
-            
+                        
             if framenum <= length(mySettings.anim)
                 framenum = framenum + 1;
             end
@@ -64,8 +65,11 @@ function exportObj = playCallback(hObject,~,hAxes,mySettings)
             % When video reaches the end of file, display "Start" on the
             % play button.
             if framenum == length(mySettings.anim) && ~mySettings.export
-               hObject.String = 'Start';
                framenum = 1;
+            end
+            
+            if ~mySettings.export && strcmp(hObject.String, 'Continue')
+                isPaused = 0;
             end
             
         end
