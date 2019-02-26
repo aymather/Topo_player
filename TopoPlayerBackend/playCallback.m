@@ -24,10 +24,6 @@ function exportObj = playCallback(hObject,~,hAxes,mySettings)
         % frames on figure
         while framenum <= length(mySettings.anim) && isPaused
             
-            if mySettings.export
-                exportObj(framenum) = getframe(gcf);
-            end
-            
             % Update main movie
             hAxes.ui1.String = ['Time Lapsed ' num2str(frame2time(mySettings,framenum)) 'ms'];
 
@@ -52,6 +48,11 @@ function exportObj = playCallback(hObject,~,hAxes,mySettings)
                  
             % Pause for slow motion
             pause(mySettings.durations.waitTime/1000);
+            
+            % Append to export object
+            if mySettings.export
+                exportObj(framenum) = getframe(gcf);
+            end
                         
             if framenum <= length(mySettings.anim)
                 framenum = framenum + 1;
