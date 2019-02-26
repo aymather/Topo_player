@@ -22,7 +22,7 @@ Montage frames are currently not supported with Matlab versions before 2018.
 2. Add files to Matlab Path (don't forget to add with subfolders)
 
 3. At the command line type `TopoStudio` which will bring up the following GUI:
-![screen shot 2019-01-26 at 5 27 44 pm](https://user-images.githubusercontent.com/41848756/51794036-e2c34a00-218f-11e9-9b72-959f2f5602a0.png)
+![screen shot 2019-01-26 at 5 27 44 pm](https://user-images.githubusercontent.com/41848756/53455263-7c7c5200-39ef-11e9-9a85-b74b894e8785.png)
 
 4. The top section named "Compiler" is where you will select files to compile your movie.
 Data is your preprocessed EEG data matrix (columns = timepoints, rows = channel voltage). Chanlocs File is your standard chanlocs file. And at the end you can type in a file name and hit ENTER to name your file. _Note: do not give your file name an extension, the program will do this for you!_
