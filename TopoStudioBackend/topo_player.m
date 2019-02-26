@@ -134,6 +134,8 @@ function topo_player(filename,varargin)
         
         % Start movie
         exportObj = playCallback(hFig,[],hAxes,settings);
+        
+        close(Topo_Player);
     
         % Remove extension from filename
         file = filename(1:(end - 4));
