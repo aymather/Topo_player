@@ -46,9 +46,6 @@ function compile_topo(data,chanlocs,name)
     close all;
     close(TopoStudio);
     
-    % Get current version of matlab to know how to handle anim variable
-    v = ver('symbolic');
-    
     % Add folder and subfolders to path
     addpath(genpath(fileparts(which('TopoStudio.m'))));
     
@@ -57,6 +54,9 @@ function compile_topo(data,chanlocs,name)
     catstring = [' out of ' num2str(total) ' frames processed'];
     currentCount = 1;
     title = 'Compiler started...\n\n';
+    
+    % Spinner Array
+    spinner = [{'|'},{'/'},{'-'},{'\\'},{'|'},{'/'},{'-'},{'\\'}]; count = 1;
     
     % set handle and remove visibility
     h = figure('visible','off','Color','white');
@@ -96,15 +96,18 @@ function compile_topo(data,chanlocs,name)
         % Update command line
         if currentCount > 1
             if length(num2str(currentCount)) == (length(num2str(currentCount - 1))) && currentCount > 1
-                len = length(num2str(currentCount)) + length(catstring);
+                len = (length(num2str(currentCount)) + length(catstring) + 2);
             else
-                len = length(num2str(currentCount)) + length(catstring) - 1;
+                len = (length(num2str(currentCount)) + length(catstring) - 1) + 2;
             end
             for j = 1:(len)
                 fprintf('\b');
             end
         end
-        fprintf([num2str(currentCount) catstring]);
+        
+        fprintf([num2str(currentCount) catstring ' ' spinner{count}]);
+        count = count + 1;
+        if count > length(spinner); count = 1; end
         currentCount = currentCount + 1;
         pause(.0001);
 
@@ -115,42 +118,6 @@ function compile_topo(data,chanlocs,name)
     warning off MATLAB:subscripting:noSubscriptsSpecified
     
     fprintf('\n\nSaving, please wait...');
-    
-    % Matlab 2018 saves this anim variable differently than
-    % in 2017 so we need to convert it if we're using 2018
-    if all(v.Release == '(R2018a)') || all(v.Release == '(R2018b)')
-
-        % create video object/open for writing
-        writerObj = VideoWriter([name '.avi']);
-        open(writerObj);
-
-        % write frames into .avi file
-        for ib = 1:total
-
-            frame = anim(ib).cdata;
-            writeVideo(writerObj,frame);
-
-        end
-
-        % Close objects
-        close(writerObj);
-
-        % Write images into 'anim' variable for topo_player()
-        videoSrc = vision.VideoFileReader([name '.avi'], 'ImageColorSpace', 'RGB');
-
-        ib = 1; % init counter
-        clear anim
-        while ~isDone(videoSrc)
-
-            anim{ib} = step(videoSrc);
-            ib = ib+1;
-
-        end
-
-        % Remove unnecessary .avi file
-        delete([name '.avi']);
-
-    end
 
     % Save and compress
     save([name '.mat'],'anim','-v7.3');

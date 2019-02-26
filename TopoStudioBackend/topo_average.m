@@ -44,26 +44,13 @@ function topo_average(data,chanlocs,timeWindow,title)
         
         data = getframe; % get frame data
 
-        % Now we need to compile the frame data with a color map
-        writerObj = VideoWriter(title); % VideoWriter object instance
-        open(writerObj); % open VideoWriter instance object
-        frame = data.cdata; % extract frame
-        writeVideo(writerObj,frame); % write frame
-        close(writerObj); % close writer object
-
-        % Known matlab bug, turn off unnecessary warning
-        warning off MATLAB:subscripting:noSubscriptsSpecified
-
-        % Now read the file we just created and save it to settings struct
-        videoSrc = vision.VideoFileReader([title '.avi'], 'ImageColorSpace', 'RGB');
-        frameData = step(videoSrc);
+        % extract what we need
+        frameData = data.cdata; % extract frame
 
         % Save compressed variable to a .mat file
         save([title '.mat'], 'frameData','-v7.3');
         
-        % Delete the .avi file
-        file = [title '.avi'];
-        delete(file);
+        fprintf('Finished!\n');
         
     end
 

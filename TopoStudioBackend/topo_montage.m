@@ -29,34 +29,26 @@ function topo_montage(filename,timeWindow,title)
     try load(filename,'anim'); catch; warning('Something went wrong trying to load your .mat file'); return; end
     
     figure('Color','white','Visible','off'); % open figure
-    montage(anim(time2frame(settings,timeWindow(1)):time2frame(settings,timeWindow(end))));
+    window = time2frame(settings,timeWindow(1)):time2frame(settings,timeWindow(2));
+    for it = 1:length(window)
+        
+        montageObj{it} = anim(window(it)).cdata;
+        
+    end
+    
+    imdisp(montageObj); % plot
+    h = gcf; % get handle
+    h.Color = [1 1 1]; % change background to white
     
     if nargin > 2
         
         disp('Creating custom frame...');
         
-        data = getframe; % get frame data
-            
-        % Now we need to compile the frame data with a color map
-        writerObj = VideoWriter(title); % VideoWriter object instance
-        open(writerObj); % open VideoWriter instance object
-        frame = data.cdata; % extract frame
-        writeVideo(writerObj,frame); % write frame
-        close(writerObj); % close writer object
-
-        % Known matlab bug, turn off unnecessary warning
-        warning off MATLAB:subscripting:noSubscriptsSpecified
-
-        % Now read the file we just created and save it to settings struct
-        videoSrc = vision.VideoFileReader([title '.avi'], 'ImageColorSpace', 'RGB');
-        frameData = step(videoSrc);
+        frameData = getframe(h); % get frame data
+        frameData = frameData.cdata;
 
         % Save compressed variable to a .mat file
         save([title '.mat'], 'frameData','-v7.3');
-        
-        % Delete the .avi file
-        file = [title '.avi'];
-        delete(file);
 
     end
 

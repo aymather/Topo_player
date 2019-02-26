@@ -2,9 +2,7 @@ function topo_player(filename,varargin)
 
     % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
     %
-    % Credit for basic GUI function framework to Mathworks
-    %
-    % Function Customized By: Alec Mather - University of Iowa - Wessel Lab - Dec. 2018
+    % By: Alec Mather - University of Iowa - Wessel Lab - Dec. 2018
     %
     % Preview: This function is the second part in a two step process. See
     % the compile_topo() function for part one. This function will display
@@ -126,11 +124,7 @@ function topo_player(filename,varargin)
     end
     
     % Display input video frame on axis
-    if all(settings.matlab == '(R2018a)') || all(settings.matlab == '(R2018b)')
-        showFrameOnAxis(hAxes.axis1, settings.anim{framenum});
-    else
-        showFrameOnAxis(hAxes.axis1, settings.anim(framenum).cdata);
-    end
+    showFrameOnAxis(hAxes.axis1, settings.anim(framenum).cdata);
     
     % If we're exporting, just start the movie and export result
     if settings.export
