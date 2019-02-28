@@ -80,6 +80,7 @@ function topo_player(filename,varargin)
     % Defaults
     defaultWaitTime = 0;
     defaultExport = 0;
+    defaultSettings = [];
     
     % Function checks
     validSingleObj = @(x) isstruct(x) && ... % object is a struct with fields
@@ -99,6 +100,7 @@ function topo_player(filename,varargin)
     % Create custom scheme for Key Value pair inputs
     p = inputParser;
     addRequired(p,'FileName');
+    addParameter(p,'Settings',defaultSettings);
     addParameter(p,'WaitTime',defaultWaitTime);
     addParameter(p,'Export',defaultExport);
     addParameter(p,'AddIndividualFrames',[],validSingleObj);
@@ -108,7 +110,7 @@ function topo_player(filename,varargin)
     parse(p,filename,varargin{:});
     
     % Initialize settings
-    settings = topo_init(p,anim,filename);
+    settings = topo_init(p,anim);
     
     % Init frame counter
     global framenum; framenum = 1;

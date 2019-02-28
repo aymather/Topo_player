@@ -1,4 +1,4 @@
-function topo_montage(filename,timeWindow,title)
+function topo_montage(filename,settings,timeWindow,title)
 
     % % % % % % % % % % % % % % % % % % % % % % % % % % 
     %
@@ -23,9 +23,8 @@ function topo_montage(filename,timeWindow,title)
     
     % Add folder and subfolders to path
     addpath(genpath(fileparts(which('TopoStudio.m'))));
-
-    settings.srate = 500; % Hz
-
+    
+    disp('Loading movie file...');
     try load(filename,'anim'); catch; warning('Something went wrong trying to load your .mat file'); return; end
     
     figure('Color','white','Visible','off'); % open figure
@@ -40,7 +39,7 @@ function topo_montage(filename,timeWindow,title)
     h = gcf; % get handle
     h.Color = [1 1 1]; % change background to white
     
-    if nargin > 2
+    if nargin > 3
         
         disp('Creating custom frame...');
         

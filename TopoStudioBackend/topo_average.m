@@ -1,4 +1,4 @@
-function topo_average(data,chanlocs,timeWindow,title)
+function topo_average(data,chanlocs,settings,timeWindow,title)
 
     % % % % % % % % % % % % % % % % % % % % % % % % % % 
     %
@@ -28,8 +28,6 @@ function topo_average(data,chanlocs,timeWindow,title)
     
     % Add folder and subfolders to path
     addpath(genpath(fileparts(which('TopoStudio.m'))));
- 
-    settings.srate = 500; % Hz
 
     plotdata = data(:,time2frame(settings,timeWindow(1)):time2frame(settings,timeWindow(end)));
     averagedData = mean(plotdata,2);
@@ -38,7 +36,7 @@ function topo_average(data,chanlocs,timeWindow,title)
     topoplot(averagedData,chanlocs,'whitebk','on'); % plot data
     colormap(AGF_cmap); % change color map
 
-    if nargin > 3
+    if nargin > 4
         
         disp('Creating your custom frame...');
         

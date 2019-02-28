@@ -7,5 +7,8 @@ function settings = topo_studio_init
     settings.text.add2Stage = 'Add to Stage';
     settings.text.createButton = 'Create';
     settings.text.noFileSelected = 'No File Selected';
+    
+    % Sample Rate
+    settings.srate = 500;
 
 end

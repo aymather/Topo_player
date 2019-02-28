@@ -110,6 +110,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 
         % Play movie
         topo_player(Movie, ... 
+                    'Settings', handles.settings, ...
                     'WaitTime', WaitTime, ...
                     'Export', Export, ...
                     'AddIndividualFrames', IndividualFrames, ...
@@ -286,7 +287,7 @@ function pushbutton9_Callback(hObject, eventdata, handles)
 
         % Use the input to create montage frame
         handles.pushbutton9.String = 'Creating...';
-        topo_montage(file, timeWindow, name);
+        topo_montage(file, settings, timeWindow, name);
 
         % Clear user input
         handles.text18.String = handles.settings.text.noFileSelected;
@@ -331,7 +332,7 @@ function pushbutton10_Callback(hObject, eventdata, handles)
 
         % Create the frame
         handles.pushbutton10.String = 'Creating...'; % display to user creating frame
-        topo_average(data, chanlocs, timeWindow, name);
+        topo_average(data, chanlocs, settings, timeWindow, name);
 
         % Reset values
         handles.text13.String = handles.settings.text.noFileSelected;

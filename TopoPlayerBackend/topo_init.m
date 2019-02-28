@@ -1,4 +1,4 @@
-function settings = topo_init(p,anim,filename)
+function settings = topo_init(p,anim,settings)
     
     % Make a settings variable for things you need to pass so
     % as to reduce confusion and make things cleaner
@@ -7,17 +7,13 @@ function settings = topo_init(p,anim,filename)
     settings.export = p.Results.Export;
     
     % Sample Rate
-    settings.srate = 500; % Hz
+    settings.srate = p.Results.Settings.srate;
     
     % Durations
     settings.durations.waitTime = p.Results.WaitTime; % ms
     
     % Animation Video
     settings.anim = anim;
-    
-    % Matlab version
-    v = ver('symbolic');
-    settings.matlab = v.Release;
     
     % Deconstruct Objects from inputParser
     
