@@ -18,6 +18,12 @@ function exportObj = playCallback(hObject,~,hAxes,mySettings)
             isPaused = strcmp(hObject.String,'Pause');
         else
             isPaused = 1;
+            fprintf('Processing frames...\n');
+            spinner = [{'|'},{'/'},{'-'},{'\\'},{'|'},{'/'},{'-'},{'\\'}]; count = 1;
+            % Init waitbar
+            total = length(mySettings.anim);
+            catstring = [' out of ' num2str(total) ' frames processed'];
+            currentCount = 1;
         end
         
         % Rotate input video frame and display original and rotated
@@ -49,11 +55,34 @@ function exportObj = playCallback(hObject,~,hAxes,mySettings)
             % Pause for slow motion
             pause(mySettings.durations.waitTime/1000);
             
-            % Append to export object
+            % Append to export object if exporting
             if mySettings.export
+                
+                % Capture frame
                 exportObj(framenum) = getframe(gcf);
+                
+                % Get command line info
+                if currentCount > 1
+                    if length(num2str(currentCount)) == (length(num2str(currentCount - 1))) && currentCount > 1
+                        len = (length(num2str(currentCount)) + length(catstring) + 2);
+                    else
+                        len = (length(num2str(currentCount)) + length(catstring) - 1) + 2;
+                    end
+                    for j = 1:(len)
+                        fprintf('\b');
+                    end
+                end
+                
+                % Print to command line
+                fprintf([num2str(currentCount) catstring ' ' spinner{count}]);
+                count = count + 1;
+                if count > length(spinner); count = 1; end
+                currentCount = currentCount + 1;
+                pause(.0001);
+                
             end
-                        
+            
+            % Increase framenumber
             if framenum <= length(mySettings.anim)
                 framenum = framenum + 1;
             end

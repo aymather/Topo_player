@@ -131,18 +131,16 @@ function topo_player(filename,varargin)
     % If we're exporting, just start the movie and export result
     if settings.export
         
-        % Close TopoStudio to prevent confusion
+        % Close everything to prevent confusion with getframes
         close(TopoStudio);
         
         % Start movie
         exportObj = playCallback(hFig,[],hAxes,settings);
-        
-        close(Topo_Player);
     
         % Remove extension from filename
         file = filename(1:(end - 4));
         
-        fprintf('Writing frames to .avi file...please wait...|');
+        fprintf('\nWriting frames to .avi file...please wait...|');
         
         % create video object/open for writing
         writerObj = VideoWriter([file '.avi']);

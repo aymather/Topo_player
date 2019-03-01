@@ -26,9 +26,14 @@ function topo_montage(filename,settings,timeWindow,title)
     
     disp('Loading movie file...');
     try load(filename,'anim'); catch; warning('Something went wrong trying to load your .mat file'); return; end
-    
     figure('Color','white','Visible','off'); % open figure
-    window = time2frame(settings,timeWindow(1)):time2frame(settings,timeWindow(2));
+    
+    % Make adjustments if the user did not select a time point that
+    % exists as a frame.
+    points = getAvailableTimePoints(settings.srate, length(anim));
+    correctedTimeWindow = checkTimePoints(points, timeWindow);
+    window = time2frame(settings,correctedTimeWindow(1)):time2frame(settings,correctedTimeWindow(2));
+    
     for it = 1:length(window)
         
         montageObj{it} = anim(window(it)).cdata;

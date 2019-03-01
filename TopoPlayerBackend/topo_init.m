@@ -6,6 +6,13 @@ function settings = topo_init(p,anim,settings)
     % Export to .avi file? (bool)
     settings.export = p.Results.Export;
     
+    % Hide topo_player if we are exporting to maintain frame sizing
+    if settings.export
+        settings.displayMode = 'off';
+    else
+        settings.displayMode = 'on';
+    end
+    
     % Sample Rate
     settings.srate = p.Results.Settings.srate;
     
@@ -15,18 +22,16 @@ function settings = topo_init(p,anim,settings)
     % Animation Video
     settings.anim = anim;
     
+    % Get available display frames in ms
+    tp = getAvailableTimePoints(settings.srate, length(settings.anim));
+    
     % Deconstruct Objects from inputParser
     
     % Individual Frames
     if ~isempty(p.Results.AddIndividualFrames)
         
         % Convert ms input to frame numbers
-        cframes = [];
-        for i = p.Results.AddIndividualFrames.times(1:end)
-            if ~mod(i,2)
-                cframes = [cframes, time2frame(settings,i)];
-            end
-        end
+        cframes = time2frame(settings, checkTimePoints(tp, p.Results.AddIndividualFrames.times));
         
         % Make sure there are equal frames and titles
         assert(length(cframes) == length(p.Results.AddIndividualFrames.titles),['You have ' num2str(length(cframes))...
@@ -36,27 +41,26 @@ function settings = topo_init(p,anim,settings)
         for i = 1:length(cframes)
             
             settings.display.(['d' num2str(cframes(i))]).title = p.Results.AddIndividualFrames.titles{i};
-            if all(settings.matlab == '(R2018a)') || all(settings.matlab == '(R2018b)')
-                settings.display.(['d' num2str(cframes(i))]).frame = settings.anim{cframes(i)};
-            else
-                settings.display.(['d' num2str(cframes(i))]).frame = settings.anim(cframes(i)).cdata;
-            end
+            settings.display.(['d' num2str(cframes(i))]).frame = settings.anim(cframes(i)).cdata;
             
         end
         
     end
     
+    % Add Custom Frames
     if ~isempty(p.Results.AddCustomFrames)
+        
+        cframes = time2frame(settings, checkTimePoints(tp, p.Results.AddCustomFrames.times));
         
         for i = 1:length(p.Results.AddCustomFrames.times)
             
-            settings.display.(['d' num2str(time2frame(settings,p.Results.AddCustomFrames.times(i)))]).title = p.Results.AddCustomFrames.titles{i};
+            settings.display.(['d' num2str(cframes(i))]).title = p.Results.AddCustomFrames.titles{i};
             try 
                 load(p.Results.AddCustomFrames.files{i},'frameData');
             catch
-                warning([p.Results.AddCustomFrames.files{i} ' did not have the frameData variable we were looking for, double check your file']);
+                warning([p.Results.AddCustomFrames.files{i} ' did not contain what we were looking for, double check you are loading the correct file.']);
             end
-            settings.display.(['d' num2str(time2frame(settings,p.Results.AddCustomFrames.times(i)))]).frame = frameData;
+            settings.display.(['d' num2str(cframes(i))]).frame = frameData;
             
         end
         

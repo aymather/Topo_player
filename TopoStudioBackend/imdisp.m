@@ -309,8 +309,12 @@ end
 figPosNew = [floor(figPosCur(1:2)+(figPosCur(3:4)-figPosNew)/2) figPosNew];
 % Ensure the figure is in bounds
 figPosNew(1:2) = min(max(figPosNew(1:2), MonSz(1:2)+6), MonSz(1:2)+MonSz(3:4)-[6 101]-figPosNew(3:4));
-% Set the figure size and position
-set(hFig, 'Position', figPosNew);
+try
+    % Set the figure size and position
+    set(hFig, 'Position', figPosNew);
+catch
+    return
+end
 return
 % Keypress callback
 % The function which does all the display stuff

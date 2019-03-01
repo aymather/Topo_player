@@ -28,8 +28,12 @@ function topo_average(data,chanlocs,settings,timeWindow,title)
     
     % Add folder and subfolders to path
     addpath(genpath(fileparts(which('TopoStudio.m'))));
+    
+    % Double check timeWindow for accuracy
+    points = getAvailableTimePoints(settings.srate, length(data));
+    correctedTimeWindow = checkTimePoints(points, timeWindow);
 
-    plotdata = data(:,time2frame(settings,timeWindow(1)):time2frame(settings,timeWindow(end)));
+    plotdata = data(:,time2frame(settings,correctedTimeWindow(1)):time2frame(settings,correctedTimeWindow(end)));
     averagedData = mean(plotdata,2);
     try load('AGF_cmap.mat'); catch; warning('Could not find file AGF_cmap.mat');end % load Adrian's colormap
     figure('Color','white','Visible','off'); % create figure but hide it
