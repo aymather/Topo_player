@@ -89,7 +89,7 @@ varargout{1} = handles.output;
 function pushbutton1_Callback(hObject, eventdata, handles)
 
     % Get Staged movie
-    Movie = handles.text29.String;
+    Movie = handles.text29.UserData;
 
     if checkPlayButton(Movie)
         
@@ -229,9 +229,11 @@ function edit4_CreateFcn(hObject, eventdata, handles)
 % --- Select custom.mat file pushbutton
 function pushbutton6_Callback(hObject, eventdata, handles)
 
-    customFile = uigetfile;
+    [filename, path] = uigetfile;
+    customFile = fullfile(path,filename);
     if customFile ~= 0
-        handles.text10.String = customFile;
+        handles.text10.String = filename;
+        handles.text10.UserData = customFile;
     end
 
 
@@ -242,12 +244,12 @@ function pushbutton8_Callback(hObject, eventdata, handles)
 % --- Stage Custom Frames pushbutton
 function pushbutton7_Callback(hObject, eventdata, handles)
 
-    if checkCFrame(str2double(handles.edit3.String), handles.edit4.String, handles.text10.String)
+    if checkCFrame(str2double(handles.edit3.String), handles.edit4.String, handles.text10.UserData)
         
         % Check frames and add to handles
        handles.CFrameTitles = horzcat(handles.CFrameTitles,handles.edit4.String);
        handles.CFrameTimes = horzcat(handles.CFrameTimes,str2double(handles.edit3.String));
-       handles.CFrameFiles = horzcat(handles.CFrameFiles,handles.text10.String);
+       handles.CFrameFiles = horzcat(handles.CFrameFiles,handles.text10.UserData);
        
        % Update staged frames
        handles.text25.String = horzcat(handles.text25.String, ['  ' handles.edit4.String]);
@@ -276,13 +278,13 @@ function pushbutton9_Callback(hObject, eventdata, handles)
     % Convert time window
     timeWindow = [str2double(handles.edit10.String), str2double(handles.edit11.String)];
 
-    if checkCreateMontageFrame(handles.text18.String, ... 
+    if checkCreateMontageFrame(handles.text18.UserData, ... 
                                timeWindow(1), ...
                                timeWindow(2), ...
                                handles.edit12.String)
     
         % Get data from user input
-        file = handles.text18.String;
+        file = handles.text18.UserData;
         name = handles.edit12.String;
 
         % Use the input to create montage frame
@@ -313,19 +315,19 @@ function pushbutton10_Callback(hObject, eventdata, handles)
     % Convert timewindow
     timeWindow = [str2double(handles.edit5.String), str2double(handles.edit6.String)];
 
-    if checkCreateAveragedFrame(handles.text13.String, ...
-                                handles.text14.String, ...
+    if checkCreateAveragedFrame(handles.text13.UserData, ...
+                                handles.text14.UserData, ...
                                 timeWindow(1), ...
                                 timeWindow(2), ...
                                 handles.edit7.String)
 
         % Extract data from file
-        loadData = load(handles.text13.String);
+        loadData = load(handles.text13.UserData);
         dataFieldnames = fieldnames(loadData);
         data = loadData.(dataFieldnames{1});
 
         % Extract chanlocs from file
-        loadChanlocs = load(handles.text14.String);
+        loadChanlocs = load(handles.text14.UserData);
         chanlocsFieldnames = fieldnames(loadChanlocs);
         chanlocs = loadChanlocs.(chanlocsFieldnames{1});
 
@@ -358,9 +360,11 @@ function pushbutton10_Callback(hObject, eventdata, handles)
 % --- Select Data for Create Averaged Frame
 function pushbutton11_Callback(hObject, eventdata, handles)
 
-    dataFile = uigetfile;
+    [filename, path] = uigetfile;
+    dataFile = fullfile(path, filename);
     if dataFile ~= 0
-        handles.text13.String = dataFile;
+        handles.text13.String = filename;
+        handles.text13.UserData = dataFile;
     end
 
 
@@ -368,9 +372,11 @@ function pushbutton11_Callback(hObject, eventdata, handles)
 % --- Select Chanlocs for Create Averaged Frame
 function pushbutton12_Callback(hObject, eventdata, handles)
 
-    chanlocsFile = uigetfile;
+    [filename, path] = uigetfile;
+    chanlocsFile = fullfile(path, filename);
     if chanlocsFile ~= 0
-        handles.text14.String = chanlocsFile;
+        handles.text14.String = filename;
+        handles.text14.UserData = chanlocsFile;
     end
 
 
@@ -429,9 +435,11 @@ function edit7_CreateFcn(hObject, eventdata, handles)
 % --- Select compiled file pushbutton
 function pushbutton13_Callback(hObject, eventdata, handles)
 
-    file = uigetfile;
+    [filename, path] = uigetfile;
+    file = fullfile(path, filename);
     if file ~= 0
-        handles.text18.String = file;
+        handles.text18.String = filename;
+        handles.text18.UserData = file;
     end
 
 
@@ -508,9 +516,11 @@ function pushbutton14_Callback(hObject, eventdata, handles)
 % --- Pushbutton for get movie file
 function pushbutton15_Callback(hObject, eventdata, handles)
 
-	file = uigetfile;
+	[filename, path] = uigetfile;
+    file = fullfile(path, filename);
     if file ~= 0
-        handles.text29.String = file;
+        handles.text29.String = filename;
+        handles.text29.UserData = file;
     end
 
 
@@ -551,9 +561,11 @@ end
 % --- Get data file for compiler
 function pushbutton16_Callback(hObject, eventdata, handles)
 
-    file = uigetfile;
+    [filename, path] = uigetfile;
+    file = fullfile(path, filename);
     if file ~= 0
-        handles.pushbutton16.String = file;
+        handles.pushbutton16.String = filename;
+        handles.pushbutton16.UserData = file;
     end
     
 
@@ -561,9 +573,11 @@ function pushbutton16_Callback(hObject, eventdata, handles)
 % --- Get chanlocs for compiler
 function pushbutton17_Callback(hObject, eventdata, handles)
 
-	file = uigetfile;
+	[filename, path] = uigetfile;
+    file = fullfile(path, filename);
     if file ~= 0
-        handles.pushbutton17.String = file;
+        handles.pushbutton17.String = filename;
+        handles.pushbutton17.UserData = file;
     end
 
 % --- Executes on button press in pushbutton18.
@@ -603,15 +617,15 @@ end
 function pushbutton20_Callback(hObject, eventdata, handles)
     
     % Validate inputs
-    if exist(handles.pushbutton16.String, 'file') == 2 && exist(handles.pushbutton17.String, 'file')
+    if exist(handles.pushbutton16.UserData, 'file') == 2 && exist(handles.pushbutton17.UserData, 'file')
         
         % Extract data
-        loadData = load(handles.pushbutton16.String);
+        loadData = load(handles.pushbutton16.UserData);
         dataFieldnames = fieldnames(loadData);
         data = loadData.(dataFieldnames{1});
 
         % Extract chanlocs
-        loadChanlocs = load(handles.pushbutton17.String);
+        loadChanlocs = load(handles.pushbutton17.UserData);
         chanlocsFieldnames = fieldnames(loadChanlocs);
         chanlocs = loadChanlocs.(chanlocsFieldnames{1});
     
