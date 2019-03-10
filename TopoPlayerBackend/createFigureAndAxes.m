@@ -21,7 +21,7 @@ function [hFig, hAxes] = createFigureAndAxes(settings)
            'position',settings.screen.owd);
 
     % Create movie axes
-    [hAxes.axis1, hAxes.ui1] = createPanelAxisTitle(hFig,settings.positions.movie,['Time Lapsed ' num2str(frame2time(settings,framenum)) 'ms']); 
+    [hAxes.axisMain, hAxes.uiMain] = createPanelAxisTitle(hFig,settings.positions.movie,['Time Lapsed ' num2str(frame2time(settings,framenum)) 'ms']); 
     
     % Sort the fieldnames and place it into an array
     if isfield(settings,'display')

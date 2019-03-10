@@ -126,7 +126,7 @@ function topo_player(filename,varargin)
     end
     
     % Display input video frame on axis
-    showFrameOnAxis(hAxes.axis1, settings.anim(framenum).cdata);
+    showFrameOnAxis(hAxes.axisMain, settings.anim(framenum).cdata);
     
     % If we're exporting, just start the movie and export result
     if settings.export
