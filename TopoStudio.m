@@ -52,6 +52,12 @@ function TopoStudio_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to TopoStudio (see VARARGIN)
 
+% Init logo
+[img, map, alpha] = imread('logo_transparent.png');
+axes(handles.axes1);
+imshow(img, map);
+handles.axes1.Children.AlphaData = alpha;
+
 % Add folder and subfolders to path
 addpath(genpath(fileparts(which('TopoStudio.m'))));
 
