@@ -22,7 +22,7 @@ function varargout = TopoStudio(varargin)
 
 % Edit the above text to modify the response to help TopoStudio
 
-% Last Modified by GUIDE v2.5 24-Feb-2019 15:58:59
+% Last Modified by GUIDE v2.5 01-Apr-2019 16:10:53
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -66,11 +66,14 @@ handles.settings = topo_studio_init;
 
 % Choose default command line output for TopoStudio
 handles.output = hObject;
-handles.IFrameTimes = [];
-handles.IFrameTitles = {};
-handles.CFrameTimes = [];
-handles.CFrameTitles = {};
-handles.CFrameFiles = {};
+
+% Preset data structures
+handles.listbox1.UserData.times = [];
+handles.listbox1.UserData.titles = {};
+
+handles.listbox2.UserData.times = [];
+handles.listbox2.UserData.titles = {};
+handles.listbox2.UserData.files = {};
 
 % Update handles structure
 guidata(hObject, handles);
@@ -96,14 +99,14 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 
     if checkPlayButton(Movie)
         
-        % Get Staged Individual Frames
-        IndividualFrames.times = handles.IFrameTimes;
-        IndividualFrames.titles = handles.IFrameTitles;
-
-        % Get Staged Custom Frames
-        CustomFrames.times = handles.CFrameTimes;
-        CustomFrames.titles = handles.CFrameTitles;
-        CustomFrames.files = handles.CFrameFiles;
+        % Get Staged Individual Frames Info
+        IndividualFrames.times = handles.listbox1.UserData.times;
+        IndividualFrames.titles = handles.listbox1.UserData.titles;
+        
+        % Get Staged Custom Frames Info
+        CustomFrames.times = handles.listbox2.UserData.times;
+        CustomFrames.titles = handles.listbox2.UserData.titles;
+        CustomFrames.files = handles.listbox2.UserData.files;
 
         % Get Wait Time
         WaitTime = str2double(handles.text30.String);
@@ -136,17 +139,25 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 function pushbutton3_Callback(hObject, eventdata, handles)
 
     if checkIFrame(str2double(handles.edit1.String),handles.edit2.String)
-        
-        % Check frames and add to handles
-        handles.IFrameTitles = horzcat(handles.IFrameTitles,handles.edit2.String);
-        handles.IFrameTimes = horzcat(handles.IFrameTimes,str2double(handles.edit1.String));
        
         % Update staged frames
-        handles.text24.String = horzcat(handles.text24.String, ['  ' handles.edit2.String]);
+        contents = cellstr(get(handles.listbox1,'String'));
+        title = [handles.edit2.String ' | ' handles.edit1.String 'ms']; % create title for GUI disp
+        if length(contents) == 1 && isempty(contents{1})
+            handles.listbox1.String = {title};
+        else
+            handles.listbox1.String = vertcat(contents, title);
+        end
+        
+        % Add to UserData for use later
+        handles.listbox1.UserData.titles = horzcat(handles.listbox1.UserData.titles, handles.edit2.String);
+        handles.listbox1.UserData.times = horzcat(handles.listbox1.UserData.times, str2double(handles.edit1.String));
        
         % Reset strings in text boxes
         handles.edit1.String = '';
         handles.edit2.String = '';
+        
+        guidata(handles.listbox1, handles);
        
     else
         
@@ -250,17 +261,25 @@ function pushbutton7_Callback(hObject, eventdata, handles)
     if checkCFrame(str2double(handles.edit3.String), handles.edit4.String, handles.text10.UserData)
         
         % Check frames and add to handles
-       handles.CFrameTitles = horzcat(handles.CFrameTitles,handles.edit4.String);
-       handles.CFrameTimes = horzcat(handles.CFrameTimes,str2double(handles.edit3.String));
-       handles.CFrameFiles = horzcat(handles.CFrameFiles,handles.text10.UserData);
        
        % Update staged frames
-       handles.text25.String = horzcat(handles.text25.String, ['  ' handles.edit4.String]);
+        contents = cellstr(get(handles.listbox2,'String'));
+        title = [handles.edit4.String ' | ' handles.edit3.String 'ms'];
+        if length(contents) == 1 && isempty(contents{1})
+            handles.listbox2.String = {title};
+        else
+            handles.listbox2.String = vertcat(contents, title);
+        end
+        handles.listbox2.UserData.titles = horzcat(handles.listbox2.UserData.titles, handles.edit4.String);
+        handles.listbox2.UserData.files = horzcat(handles.listbox2.UserData.files, handles.text10.UserData);
+        handles.listbox2.UserData.times = horzcat(handles.listbox2.UserData.times, str2double(handles.edit3.String));
        
        % Reset strings in text boxes
        handles.edit3.String = '';
        handles.edit4.String = '';
        handles.text10.String = handles.settings.text.noFileSelected;
+       
+       guidata(handles.listbox2, handles);
        
     else
         
@@ -502,13 +521,15 @@ function edit12_CreateFcn(hObject, eventdata, handles)
 function pushbutton14_Callback(hObject, eventdata, handles)
 
     % Reset all handles that hold staging information
-    handles.IFrameTimes = [];
-    handles.IFrameTitles = {};
-    handles.CFrameTimes = [];
-    handles.CFrameTitles = {};
-    handles.CFrameFiles = {};
-    handles.text24.String = {};
-    handles.text25.String = {};
+    handles.listbox1.UserData.times = [];
+    handles.listbox1.UserData.titles = {};
+    handles.listbox1.String = {};
+    
+    handles.listbox2.UserData.times = [];
+    handles.listbox2.UserData.titles = {};
+    handles.listbox2.UserData.files = {};
+    handles.listbox2.String = {};
+    
     handles.text29.String = handles.settings.text.noMovieSelected;
     handles.text30.String = '0';
 
@@ -654,3 +675,49 @@ function checkbox1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of checkbox1
+
+
+% --- Executes on selection change in listbox1.
+function listbox1_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listbox1 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox1
+
+
+% --- Executes during object creation, after setting all properties.
+function listbox1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in listbox2.
+function listbox2_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listbox2 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox2
+
+
+% --- Executes during object creation, after setting all properties.
+function listbox2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
