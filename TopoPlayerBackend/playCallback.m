@@ -30,9 +30,10 @@ function exportObj = playCallback(hObject,~,hAxes,mySettings)
         % frames on figure
         while framenum <= length(mySettings.anim) && isPaused
             
-            % Update main movie
+            % Update main movie string
             hAxes.uiMain.String = ['Time Lapsed ' num2str(frame2time(mySettings,framenum)) 'ms'];
 
+            % Show new frame on axis
             showFrameOnAxis(hAxes.axisMain, mySettings.anim(framenum).cdata);
             
             % Update progress bar

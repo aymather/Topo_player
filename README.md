@@ -28,7 +28,7 @@ Montage frames are currently not supported with Matlab versions before 2018.
 Data is your preprocessed EEG data matrix (columns = timepoints, rows = channel voltage). Chanlocs File is your standard chanlocs file. And at the end you can type in a file name and hit ENTER to name your file. _Note: do not give your file name an extension, the program will do this for you!_
 ![screen shot 2019-01-26 at 5 27 57 pm](https://user-images.githubusercontent.com/41848756/51794051-4fd6df80-2190-11e9-9b4b-0fa0d3f06482.png)
 
-5. Once you have compiled your movie, you may now play it. At the bottom you can see the "Stage." This is where you will prepare your movie. 
+5. Once you have compiled your movie, you may now play it. At the bottom you can see the "Stage." This is where you will prepare your movie.
 ![screen shot 2019-01-26 at 5 28 33 pm](https://user-images.githubusercontent.com/41848756/51794116-9416af80-2191-11e9-9167-3069fb59e227.png)
 Since all we have at this point is a compiled movie, let's just load that in and play it. Click on "Select Movie File" and find the .mat file you just created. When you hit enter you should see that that file is chosen under the button you just pressed. Now hit "Play Movie."
 
@@ -41,7 +41,7 @@ Since all we have at this point is a compiled movie, let's just load that in and
 7. If you want to stage a Custom frame, you must first create it. Go just above to the sections titled "Create Custom Montage" and "Create Custom Average."
 ![screen shot 2019-01-26 at 5 28 10 pm](https://user-images.githubusercontent.com/41848756/51794201-0936b480-2193-11e9-8260-bc06cd185c63.png)
 ###### Custom Montage
-- A custom montage will look like an array of topoplots all placed into a single frame.
+- A custom montage will loqok like an array of topoplots all placed into a single frame.
 - Select your movie file that you created from step 4.
 - Give your range of time points from start to finish.
 - Finally, name the new custom frame (don't give it an extension).
